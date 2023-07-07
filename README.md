@@ -8,7 +8,7 @@
 ### Art
 - [Jay Myong](https://kmyong00.wixsite.com/portfolio)
 - [Lilly Martin](https://lillymartin.myportfolio.com/)
-- []
+- [Amelia Shafiei](https://www.ameliashafieiart.com/)
 ### Programming
 - [Alicia (smushy64)](https://github.com/smushy64)
 - [Dakota](https://github.com/RamenSea)
