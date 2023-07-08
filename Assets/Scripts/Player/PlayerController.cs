@@ -30,9 +30,11 @@ namespace Player {
         
         [SerializeField] private float movementSpeed;
         [SerializeField] private Transform _targetTransform;
-        [SerializeField] private GameObject heldItem;
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Animator animator;
+
+        [SerializeField]
+        Items.ItemObject heldItem;
 
         // NOTE(alicia): moved input handling into playercontroller
         public Player.Input player_input { private set; get; }
@@ -54,7 +56,7 @@ namespace Player {
             r2d = GetComponent<Rigidbody2D>();
             mapped_input = new MappedInput();
 
-            this.heldItem.SetActive(false);
+            heldItem.gameObject.SetActive(false);
             this.possibleSelectedHeroes = new();
         }
 
@@ -104,7 +106,8 @@ namespace Player {
                     }
                     if( item != Item.None ) {
                         held_item_type = item;
-                        heldItem.SetActive( true );
+                        heldItem.set_sprite( held_item_type );
+                        heldItem.gameObject.SetActive( true );
                     }
                 } else {
                     if (this.possibleSelectedHeroes.Count > 0) {
@@ -127,7 +130,7 @@ namespace Player {
                             bestHeroToSelect.GiveItem( held_item_type )
                         ) {
                             held_item_type = Item.None;
-                            heldItem.SetActive( false );
+                            heldItem.gameObject.SetActive( false );
                         }
                     }
                 }
