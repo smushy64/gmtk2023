@@ -13,32 +13,68 @@ namespace Heroes {
 
         [SerializeField] private LinkVariant variant;
         [SerializeField] private float madWalkingSpeed;
+        [SerializeField] private float madChargingSpeed;
+        [SerializeField] private float timeForBeginChargingAnimation;
+        [SerializeField] private float durationOfCharge;
         [SerializeField] private float targetingOffAxisDifference;
+        [SerializeField] private float distanceTriggerCharge;
 
 
         private Vector2 chargeDirection;
+        private float beginChargingAnimationTimer = 0f;
+        private float chargetimer = 0f;
+        private bool isCharging = false;
+        
         protected override void MoveState(BaseHeroState newState) {
             base.MoveState(newState);
 
             switch (this.state) {
                 case BaseHeroState.Mad: {
+                    this.isCharging = false;
                     break;
                 }
             }
         }
 
-        protected override void Update() {
+        protected override void FixedUpdate() {
             base.Update();
 
             switch (this.state) {
                 case BaseHeroState.Mad: {
-                    var directionToPlayer = this.transform.position.ToVector2()
-                                                .Direction(this.runner.player.targetTransform.position);
+                    if (this.isCharging == false) {
+                        var distance = this.transform.position.ToVector2() - this.runner.player.targetTransform.position.ToVector2();
 
-                    if (directionToPlayer.x.Abs() <= this.targetingOffAxisDifference) {
-                        this.StartCharge(new Vector2(0f,directionToPlayer.y >= 0 ? 1f : -1f));
-                    } else if (directionToPlayer.y.Abs() <= this.targetingOffAxisDifference) {
-                        this.StartCharge(new Vector2(directionToPlayer.x >= 0 ? 1f : -1f, 0f));
+                        if (distance.x.Abs() <= this.targetingOffAxisDifference) {
+                            this.StartCharge(new Vector2(0f,distance.y >= 0 ? -1f : 1f));
+                        } else if (distance.y.Abs() <= this.targetingOffAxisDifference) {
+                            this.StartCharge(new Vector2(distance.x >= 0 ? -1f : 1f, 0f));
+                        }  else if (distance.magnitude <= this.distanceTriggerCharge) {
+                            this.StartCharge(this.transform.position.ToVector2().Direction(this.runner.player.targetTransform.position));
+                        } else {
+                            Vector2 moveDirection = Vector2.zero;
+                            if (distance.x.Abs() < distance.y.Abs()) {
+                                moveDirection.x = distance.x > 0 ? -1f : 1f;
+                            } else {
+                                moveDirection.y = distance.y > 0 ? -1f : 1f;
+                            }
+                            var moveDelta = moveDirection * (this.madWalkingSpeed * Time.fixedDeltaTime);
+
+                            this.SetMovementAnimation(moveDelta);
+                            this.rigidbody.MovePosition(this.transform.position + moveDelta.ToVector3());
+                        }
+                        
+                    } else {
+                        if (this.beginChargingAnimationTimer <= 0f) {
+                            this.beginChargingAnimationTimer -= Time.fixedDeltaTime;
+                        } else {
+                            var moveDelta = this.chargeDirection * (this.madChargingSpeed * Time.fixedDeltaTime);
+                            this.SetMovementAnimation(moveDelta);
+                            this.rigidbody.MovePosition(this.transform.position + moveDelta.ToVector3());
+                            this.chargetimer -= Time.fixedDeltaTime;
+                            if (this.chargetimer <= 0f) {
+                                this.isCharging = false;
+                            }
+                        }
                     }
                     break;
                 }
@@ -46,7 +82,11 @@ namespace Heroes {
         }
 
         private void StartCharge(Vector2 direction) {
-            
+            this.SetMovementAnimation(Vector2.zero);
+            this.isCharging = true;
+            this.beginChargingAnimationTimer = this.timeForBeginChargingAnimation;
+            this.chargetimer = this.durationOfCharge;
+            this.chargeDirection = direction;
         }
     }
 }

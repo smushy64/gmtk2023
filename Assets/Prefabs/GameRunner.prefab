@@ -154,6 +154,7 @@ MonoBehaviour:
   heroPrefabs:
   - {fileID: 1431324612520156031, guid: f51285e35ca034b58a3792019c9b4d52, type: 3}
   - {fileID: 3205362814943591058, guid: 02c3af587bdcf4a0788a6ce946b0dc40, type: 3}
+  - {fileID: 2137141414854147243, guid: 00e94283881754d32a8ce14c355c1e1b, type: 3}
   - {fileID: 1373950777737911985, guid: 7ad26ad03eaf8402f9187b196bc59366, type: 3}
   entrances: []
   waitingSpots: []

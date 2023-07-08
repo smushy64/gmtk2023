@@ -43,11 +43,9 @@ namespace Heroes {
 
             switch (this.state) {
                 case BaseHeroState.WalkingIn: {
-                    this.rigidbody.bodyType = RigidbodyType2D.Kinematic;
                     break;
                 }
                 case BaseHeroState.Mad: {
-                    this.rigidbody.bodyType = RigidbodyType2D.Dynamic;
                     this.SetNewBehavior();
                     break;
                 }

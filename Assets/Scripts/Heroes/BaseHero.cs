@@ -157,6 +157,12 @@ namespace Heroes {
             
             
             switch (this.state) {
+                case BaseHeroState.WalkingIn: {
+                    if (this.rigidbody != null) {
+                        this.rigidbody.bodyType = RigidbodyType2D.Kinematic;
+                    }
+                    break;
+                }
                 case BaseHeroState.WaitingForRequest: {
                     this.progressBar.gameObject.SetActive(true);
                     this.progressBar.SetProgress(0f);
@@ -165,6 +171,9 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.Mad: {
+                    if (this.rigidbody != null) {
+                        this.rigidbody.bodyType = RigidbodyType2D.Dynamic;
+                    }
                     this.spriteRenderer.DOColor(new Color(0.95f, 0.29f, 0.31f), 0.4f);
                     break;
                 }
@@ -178,7 +187,6 @@ namespace Heroes {
                     break;
                 }
             }
-
         }
 
         //Animation stuff
@@ -202,11 +210,15 @@ namespace Heroes {
         
         
         
-        public void OnPlayerTriggerEnter2D(PlayerController player, Collider2D other) {
-            player.AddSelectedHero(this);
+        public virtual void OnPlayerTriggerEnter2D(PlayerController player, PlayerCollisionDetection detection, Collider2D other) {
+            if (detection == this.playerCollisionDetection) {
+                player.AddSelectedHero(this);
+            }
         }
-        public void OnPlayerTriggerExit2D(PlayerController player, Collider2D other) {
-            player.RemoveSelectedHero(this);
+        public virtual void OnPlayerTriggerExit2D(PlayerController player, PlayerCollisionDetection detection, Collider2D other) {
+            if (detection == this.playerCollisionDetection) {
+                player.RemoveSelectedHero(this);
+            }
         }
         protected virtual void OnDestroy() {
             this.spriteRenderer.DOKill();

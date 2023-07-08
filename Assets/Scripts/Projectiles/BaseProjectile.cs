@@ -85,11 +85,11 @@ namespace Projectiles {
             this.KillProjectile(ProjectileDeath.HitPlayer);
         }
         
-        public void OnPlayerCollisionEnter2D(PlayerController player, Collision2D other) {
+        public void OnPlayerCollisionEnter2D(PlayerController player, PlayerCollisionDetection detection, Collision2D other) {
             this.OnHitPlayer(player, other);
         }
 
-        public void OnPlayerTriggerEnter2D(PlayerController player, Collider2D other) {
+        public void OnPlayerTriggerEnter2D(PlayerController player, PlayerCollisionDetection detection, Collider2D other) {
             this.OnHitPlayer(player, null);
             
         }
