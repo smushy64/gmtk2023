@@ -35,7 +35,8 @@ namespace Projectiles {
                 projectile = (T) this.indexedPrefabs[projectileType].Instantiate(this.transform);
                 projectile.recycler = this;
             }
-
+            projectile.OnSpawn();
+            
             return projectile;
         }
 
@@ -47,6 +48,7 @@ namespace Projectiles {
             var recycled = this.recycledProjectiles.GetNullable(type);
             if (recycled == null) {
                 recycled = new();
+                this.recycledProjectiles[type] = recycled;
             }
 
             recycled.Push(projectile);
