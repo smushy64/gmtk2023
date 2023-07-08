@@ -1,6 +1,8 @@
 using System;
+using DG.Tweening;
 using General;
 using Items;
+using Player;
 using RamenSea.Foundation.Extensions;
 using RamenSea.Foundation3D.Extensions;
 using Runner;
@@ -22,35 +24,42 @@ namespace Heroes {
     public enum BaseHeroState {
         NotSpawned, WalkingIn, WaitingForRequest, Leaving, Mad, Left
     }
-    public class BaseHero: MonoBehaviour {
+    public class BaseHero: MonoBehaviour, IPlayerCollisionDetectionListener {
         // Enum specifying the type of hero the subclass is
         public virtual HeroType heroType => HeroType.None;
         // Allows you to get the variant enum without having to cast to a class
         public virtual byte heroVariantValue => 0;
         
-        [DoNotSerialize] public GameRunner runner;
-        [DoNotSerialize] public GameProgressBar progressBar;
+        [NonSerialized] public HeroRecycler recycler; // yay circlular
+        [NonSerialized] public GameRunner runner;
         
         // Editor fields
+        [SerializeField] protected GameProgressBar progressBar;
         [SerializeField] protected float walkingInSpeed = 1f;
         [SerializeField] protected float leavingSpeed = 1f;
         [SerializeField] protected float generalRequestTime = 5f;
+        [SerializeField] protected SpriteRenderer spriteRenderer;
+        [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
+
 
         protected float requestTimer = 0f;
-        protected BaseHeroState state;
+        protected BaseHeroState _state;
 
         protected Item _requestItem;
         protected Vector2 spawnLocation;
         protected Vector2 requestLocation;
         
         public Item requestItem => this._requestItem;
+        public float timeTilMad => this.requestTimer;
+        public BaseHeroState state => this._state;
 
         // Unity Lifecycle methods
         // Stubbed out a few of the common mono behavior life cycle classes to make it easier work in the future
         // We can remove these if we don't end up using em
         protected virtual void Awake() {
-            this.state = BaseHeroState.NotSpawned;
+            this._state = BaseHeroState.NotSpawned;
             this.progressBar.gameObject.SetActive(false);
+            this.playerCollisionDetection.listener = this;
         }
         protected virtual void Start() { }
         protected virtual void OnEnable() { }
@@ -100,7 +109,15 @@ namespace Heroes {
             // }
         }
         // End of unity life cycle methods
-
+        public void GiveItem() {
+            if (this.state != BaseHeroState.WaitingForRequest) {
+                return;
+            }
+            this.MoveState(BaseHeroState.Leaving);
+        }
+        public virtual void OnSpawn() {
+            this.spriteRenderer.color = Color.white;
+        }
         public virtual void SetUp(Item requestingItem, Vector2 spawnLocation, Vector2 requestLocation) {
             this._requestItem = requestingItem;
             this.spawnLocation = spawnLocation;
@@ -112,9 +129,10 @@ namespace Heroes {
 
         protected virtual void MoveState(BaseHeroState newState) {
             var oldState = this.state;
-            this.state = newState;
+            this._state = newState;
             Debug.Log($"{this.heroType} - is moving to {newState} from {oldState}"); //todo remove
 
+            this.spriteRenderer.DOKill();
             switch (oldState) { //old state
                 case BaseHeroState.WaitingForRequest: {
                     this.progressBar.gameObject.SetActive(false);
@@ -130,8 +148,29 @@ namespace Heroes {
                     this.requestTimer = this.generalRequestTime; // todo actually have this set a usable time. JUST A TEST VALUE
                     break;
                 }
+                case BaseHeroState.Mad: {
+                    this.spriteRenderer.DOColor(new Color(0.95f, 0.29f, 0.31f), 0.4f);
+                    break;
+                }
+                case BaseHeroState.Leaving: {
+                    this.spriteRenderer.DOColor(new Color(0.2f, 0.94f, 0.95f), 0.4f);
+                    break;
+                }
+                case BaseHeroState.Left: {
+                    this.recycler.Recycle(this);
+                    break;
+                }
             }
 
+        }
+        public void OnPlayerTriggerEnter2D(PlayerController player, Collider2D other) {
+            player.AddSelectedHero(this);
+        }
+        public void OnPlayerTriggerExit2D(PlayerController player, Collider2D other) {
+            player.RemoveSelectedHero(this);
+        }
+        protected virtual void OnDestroy() {
+            this.spriteRenderer.DOKill();
         }
     }
 }

@@ -66,6 +66,9 @@ namespace Projectiles {
             this.projectileDeath = deathType;
             this.AnimateProjectileDeath();
             await UniTask.Delay(TimeSpan.FromSeconds(this.timeToRecycle));
+            if (this == null) {
+                return;
+            }
             this.recycler.Recycle(this);
         }
         protected void AnimateProjectileDeath() {

@@ -72,6 +72,16 @@ namespace Runner {
                 mechanic.OnStateChange(this.state);
             }
         }
+
+        public void PlayerDied() {
+            var s = this.state;
+            s.status = GameState.Status.End;
+            this.state = s;
+            
+            foreach (var mechanic in this.mechanics) {
+                mechanic.OnStateChange(this.state);
+            }
+        }
         
         
 #if UNITY_EDITOR

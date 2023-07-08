@@ -177,6 +177,7 @@ MonoBehaviour:
   rigidbody: {fileID: 4215726148199956106}
   _targetTransform: {fileID: 8517729836850001252}
   potionInHand: {fileID: 4794161476663451249}
+  spriteRenderer: {fileID: 2877553887181193313}
 --- !u!114 &5776944896040763651
 MonoBehaviour:
   m_ObjectHideFlags: 0
