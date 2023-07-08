@@ -6,32 +6,29 @@ namespace Items {
     public class PotionBuilder: BaseItemBuilder {
         public override Item itemToBuild => Item.Potion;
 
-        [SerializeField] private float timeItTakesToCook = 1f;
-        [SerializeField] private float timeTilOverCooked = 1.5f;
-        [SerializeField] private float timeItTakesToReset = 2f;
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         private bool isCooking = false;
         private bool isReseting = false;
 
         private float cookingTime = 0f;
-        private float resetTimer = 0f;
+        private float reset_timer = 0f;
         private void Update() {
             if (this.isCooking) {
                 this.cookingTime += Time.deltaTime;
-                this.progressBar.SetProgress(this.cookingTime / this.timeItTakesToCook);
+                this.progressBar.SetProgress(this.cookingTime / this.completionTime);
 
-                if (this.cookingTime >= this.timeItTakesToCook) {
+                if (this.cookingTime >= this.completionTime) {
                     this.itemIsFinished = true;
                 }
-                if (this.cookingTime >= this.timeTilOverCooked) {
+                if (this.cookingTime >= this.failureTime) {
                     this.SetReset();
                 }
             }
 
             if (this.isReseting) {
-                this.resetTimer += Time.deltaTime;
-                if (this.resetTimer >= this.timeItTakesToReset) {
+                this.reset_timer += Time.deltaTime;
+                if (this.reset_timer >= this.resetTime) {
                     this.isReseting = false;
                     this.spriteRenderer.color = Color.red;
                 }
@@ -39,7 +36,7 @@ namespace Items {
         }
 
         private void SetReset() {
-            this.resetTimer = 0f;
+            this.reset_timer = 0f;
             this.isReseting = true;
             this.isCooking = false;
             this.itemIsFinished = false;

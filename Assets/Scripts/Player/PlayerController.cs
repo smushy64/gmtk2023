@@ -26,7 +26,7 @@ namespace Player {
     public class PlayerController: GameMechanic {
         [SerializeField] private float movementSpeed;
         [SerializeField] private Transform _targetTransform;
-        [SerializeField] private GameObject potionInHand;
+        [SerializeField] private GameObject heldItem;
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         // NOTE(alicia): moved input handling into playercontroller
@@ -41,18 +41,15 @@ namespace Player {
         Rigidbody2D r2d;
         public Transform targetTransform => _targetTransform;
 
-        private BaseItemBuilder selectedBuilder;
-        private bool isInteractingWithBuilder = false;
+        Item held_item_type = Item.None;
 
         private List<BaseHero> possibleSelectedHeroes;
 
-        private bool isHoldingPotion = false;
-        
         private void Awake() {
             r2d = GetComponent<Rigidbody2D>();
             mapped_input = new MappedInput();
 
-            this.potionInHand.SetActive(false);
+            this.heldItem.SetActive(false);
             this.possibleSelectedHeroes = new();
         }
 
@@ -61,41 +58,55 @@ namespace Player {
             if (this.runner.state.status != GameState.Status.Running) {
                 return;
             }
-            
+
             poll_input();
-            if (selectedBuilder != null) {
-                this.selectedBuilder.ProcessInput(player_input);
-                if(
-                    selectedBuilder.itemIsFinished &&
-                    player_input.is_interact_pressed
-                ) {
-                    this.selectedBuilder.TakeItem();
-                    this.potionInHand.SetActive(true);
-                    this.isHoldingPotion = true;
-                }
-                this.isInteractingWithBuilder = this.selectedBuilder.isBeingInteractedWith;
-            }
 
-            if( isHoldingPotion && player_input.is_interact_pressed ) {
-                if (this.possibleSelectedHeroes.Count > 0) {
-                    BaseHero bestHeroToSelect = null;
-                    for (var i = 0; i < this.possibleSelectedHeroes.Count; i++) {
-                        var possibleSelectedHero = this.possibleSelectedHeroes[i];
-                        if (possibleSelectedHero.state != BaseHeroState.WaitingForRequest) {
-                            continue;
-                        }
+            if( player_input.is_interact_pressed ) {
+                if( held_item_type == Item.None ) {
+                    Item item = Item.None;
+                    LayerMask item_station_mask = (1 << 3);
+                    const int MAX_ITEM_STATION_COLLIDERS = 1;
+                    Collider2D[] colliders =
+                        new Collider2D[MAX_ITEM_STATION_COLLIDERS];
 
-                        if (bestHeroToSelect == null) {
-                            bestHeroToSelect = possibleSelectedHero;
-                        } else if (possibleSelectedHero.timeTilMad < bestHeroToSelect.timeTilMad) {
-                            bestHeroToSelect = possibleSelectedHero;
-                        }
+                    int num_colliders = Physics2D.OverlapCircleNonAlloc(
+                        transform.position,
+                        2.0f,
+                        colliders,
+                        item_station_mask
+                    );
+
+                    if( num_colliders != 0 ) {
+                        Collider2D collider = colliders[0];
+                        ItemStation station =
+                            collider.gameObject.GetComponent<ItemStation>();
+                        item = station.on_interact();
                     }
+                    if( item != Item.None ) {
+                        held_item_type = item;
+                        heldItem.SetActive( true );
+                    }
+                } else {
+                    if (this.possibleSelectedHeroes.Count > 0) {
+                        BaseHero bestHeroToSelect = null;
+                        for (var i = 0; i < this.possibleSelectedHeroes.Count; i++) {
+                            var possibleSelectedHero = this.possibleSelectedHeroes[i];
+                            if (possibleSelectedHero.state != BaseHeroState.WaitingForRequest) {
+                                continue;
+                            }
 
-                    if (bestHeroToSelect != null) {
-                        bestHeroToSelect.GiveItem();
-                        this.isHoldingPotion = false;
-                        this.potionInHand.SetActive(false);
+                            if (bestHeroToSelect == null) {
+                                bestHeroToSelect = possibleSelectedHero;
+                            } else if (possibleSelectedHero.timeTilMad < bestHeroToSelect.timeTilMad) {
+                                bestHeroToSelect = possibleSelectedHero;
+                            }
+                        }
+
+                        if( bestHeroToSelect != null ) {
+                            bestHeroToSelect.GiveItem();
+                            held_item_type = Item.None;
+                            heldItem.SetActive( false );
+                        }
                     }
                 }
             }
@@ -106,20 +117,18 @@ namespace Player {
                 return;
             }
 
-            if( !isInteractingWithBuilder ) {
-                Vector2 movementDelta =
-                    player_input.movement * (movementSpeed * Time.fixedDeltaTime);
-                this.r2d.MovePosition(this.transform.position.ToVector2() + movementDelta);
-            }
+            Vector2 movementDelta =
+                player_input.movement * (movementSpeed * Time.fixedDeltaTime);
+            this.r2d.MovePosition(this.transform.position.ToVector2() + movementDelta);
         }
 
         public void SetSelectedItemBuilderArea(BaseItemBuilder builder) {
-            this.selectedBuilder = builder;
+            // this.selectedBuilder = builder;
         }
         public void ClearSelectedItemBuilderArea(BaseItemBuilder builder) {
-            if (this.selectedBuilder == builder) {
-                this.selectedBuilder = null;
-            }
+            // if (this.selectedBuilder == builder) {
+            //     this.selectedBuilder = null;
+            // }
         }
         public void AddSelectedHero(BaseHero hero) {
             if (this.possibleSelectedHeroes.Contains(hero) == false) {
@@ -141,11 +150,11 @@ namespace Player {
 
         void poll_input() {
             player_input = new Input(
-                mapped_input.Character.Movement.ReadValue<Vector2>(),
-                mapped_input.Character.Action.IsPressed(),
-                mapped_input.Character.Action.WasPressedThisFrame(),
-                mapped_input.Character.Action.WasReleasedThisFrame()
-            );
+                    mapped_input.Character.Movement.ReadValue<Vector2>(),
+                    mapped_input.Character.Action.IsPressed(),
+                    mapped_input.Character.Action.WasPressedThisFrame(),
+                    mapped_input.Character.Action.WasReleasedThisFrame()
+                    );
         }
 
         void OnEnable() {

@@ -13,6 +13,13 @@ namespace Items {
         public bool itemIsFinished { protected set; get; }
         protected bool playerIsWithinBounds = false;
 
+        [SerializeField]
+        protected float completionTime = 1f;
+        [SerializeField]
+        protected float failureTime = 1.5f;
+        [SerializeField]
+        protected float resetTime = 2f;
+
         private void Awake() {
             this.playerCollisionDetection.listener = this;
             this.progressBar.gameObject.SetActive(false);
