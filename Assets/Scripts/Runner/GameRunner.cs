@@ -30,7 +30,7 @@ namespace Runner {
         public const int EXECUTION_ORDER_GAME_RUNNER = -1000;
         public GameState state { private set; get; }
 
-        private GameMechanic[] mechanics;
+        [SerializeField] private GameMechanic[] mechanics;
         
         
         // List of specific game mechanics so we can reference them if we want
@@ -55,8 +55,27 @@ namespace Runner {
         private void Update() {
         }
 
+        [Button("Start game")]
+        public void StartGame() {
+            if (this.state.status != GameState.Status.SetUp) {
+                Debug.LogError("The game has already started");
+                return;
+            }
+            var s = this.state;
+            s.status = GameState.Status.Running;
+            this.state = s;
+            
+            foreach (var mechanic in this.mechanics) {
+                mechanic.OnStateChange(this.state);
+            }
+        }
+        
         
 #if UNITY_EDITOR
+        private void Reset() {
+            this.UpdateGameMechanics();
+        }
+
         // Call this method in the editor if you add a new game mechanic
         // This runs in the editor so it can be as slow as we want!!
         [Button("Fetch game mechanics")]

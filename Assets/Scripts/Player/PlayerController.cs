@@ -1,4 +1,4 @@
-using System;
+using RamenSea.Foundation3D.Extensions;
 using Runner;
 using UnityEngine;
 
@@ -14,7 +14,8 @@ namespace Player {
             }
             
             this.input.UpdateInput();
-            var movementDelta = this.input.movementVector * (this.movementSpeed * Time.deltaTime);
+            Vector3 movementDelta = this.input.movementVector * (this.movementSpeed * Time.deltaTime);
+            this.transform.position += movementDelta;
         }
 
         public void TakeDamage(int damage) { // we could add source
