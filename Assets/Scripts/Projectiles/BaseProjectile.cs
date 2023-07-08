@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Player;
+using Runner;
 using UnityEngine;
 
 namespace Projectiles {
@@ -19,20 +20,32 @@ namespace Projectiles {
         [SerializeField] protected float maxLifeOfProjectile = 10f;
         [SerializeField] protected float timeToRecycle = 0.1f;
         [SerializeField] protected int damage = 1;
+        [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
         public IProjectileRecycler recycler;
-
+        public GameRunner runner;
+        
         protected bool hasSpawned = false;
         protected bool isRecycling = false;
-        protected float projectileLifeLeft = 0f;
+        protected float projectileAliveTimer = 0f;
 
         protected ProjectileDeath projectileDeath;
-        protected void Update() {
-            if (this.hasSpawned == false || this.isRecycling) {
+
+        private void Awake() {
+            this.playerCollisionDetection.listener = this;
+        }
+
+        protected virtual void Update() {
+            if (this.hasSpawned == false) {
+                return;
+            }
+            
+            this.projectileAliveTimer += Time.deltaTime;
+
+            if (this.isRecycling) {
                 return;
             }
 
-            this.projectileLifeLeft -= Time.deltaTime;
-            if (this.projectileLifeLeft <= 0) {
+            if (this.projectileAliveTimer >= this.maxLifeOfProjectile) {
                 this.KillProjectile(ProjectileDeath.RanOutOfTime);
             }
         }
@@ -45,7 +58,7 @@ namespace Projectiles {
             this.projectileDeath = ProjectileDeath.None;
             this.hasSpawned = true;
             this.isRecycling = false;
-            this.projectileLifeLeft = this.maxLifeOfProjectile;
+            this.projectileAliveTimer = 0f;
         }
 
         protected async void KillProjectile(ProjectileDeath deathType) {

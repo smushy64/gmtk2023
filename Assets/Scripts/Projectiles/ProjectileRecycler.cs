@@ -12,7 +12,7 @@ namespace Projectiles {
         [SerializeField] private BaseProjectile[] projectilePrefabs;
 
         private Dictionary<Type, BaseProjectile> indexedPrefabs;
-        private Dictionary<Type, Stack<BaseProjectile>> recycledProjectiles;
+        private Dictionary<Type, Stack<BaseProjectile>> recycledProjectiles; //maybe move indexing powers based off of an enum vs type. eeeh
 
         private void Awake() {
             this.indexedPrefabs = new();
@@ -34,6 +34,7 @@ namespace Projectiles {
             } else {
                 projectile = (T) this.indexedPrefabs[projectileType].Instantiate(this.transform);
                 projectile.recycler = this;
+                projectile.runner = this.runner;
             }
             projectile.OnSpawn();
             
@@ -54,8 +55,6 @@ namespace Projectiles {
             recycled.Push(projectile);
         }
 #if UNITY_EDITOR
-        // Call this method in the editor if you add a new game mechanic
-        // This runs in the editor so it can be as slow as we want!!
         [Button("Update prefabs")]
         public void UpdatePrefabs() {
             this.projectilePrefabs = Resources.LoadAll<BaseProjectile>("Prefabs/Projectiles");

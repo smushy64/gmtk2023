@@ -1,4 +1,5 @@
 using System;
+using Heroes;
 using NaughtyAttributes;
 using Player;
 using Projectiles;
@@ -38,6 +39,8 @@ namespace Runner {
         public PlayerController player => this._player;
         [SerializeField] private ProjectileRecycler _projectileRecycler;
         public ProjectileRecycler projectileRecycler => this._projectileRecycler;
+        [SerializeField] private HeroRecycler _heroRecycler;
+        public HeroRecycler heroRecycler => this._heroRecycler;
 
         private void Awake() {
             this.state = new GameState() {
@@ -55,7 +58,7 @@ namespace Runner {
         private void Update() {
         }
 
-        [Button("Start game")]
+        [Button("Start game", EButtonEnableMode.Playmode)]
         public void StartGame() {
             if (this.state.status != GameState.Status.SetUp) {
                 Debug.LogError("The game has already started");
@@ -78,13 +81,15 @@ namespace Runner {
 
         // Call this method in the editor if you add a new game mechanic
         // This runs in the editor so it can be as slow as we want!!
-        [Button("Fetch game mechanics")]
+        [Button("Fetch game mechanics", EButtonEnableMode.Editor)]
         private void UpdateGameMechanics() {
             this.mechanics = FindObjectsByType<GameMechanic>(FindObjectsSortMode.None);
             this._player = FindObjectOfType<PlayerController>();
             this._projectileRecycler = FindObjectOfType<ProjectileRecycler>();
+            this._heroRecycler = FindObjectOfType<HeroRecycler>();
             
             this._projectileRecycler.UpdatePrefabs();
+            this._heroRecycler.UpdatePrefabs();
         }
 #endif
     }

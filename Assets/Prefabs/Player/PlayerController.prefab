@@ -164,6 +164,7 @@ MonoBehaviour:
   input: {fileID: 5776944896040763651}
   movementSpeed: 10
   rigidbody: {fileID: 4215726148199956106}
+  _targetTransform: {fileID: 8517729836850001252}
 --- !u!114 &5776944896040763651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,8 +274,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1686726621
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: 6fe5b2a7f96e645dd9b70c86612ae210, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

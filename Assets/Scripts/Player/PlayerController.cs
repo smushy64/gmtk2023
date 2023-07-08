@@ -8,8 +8,10 @@ namespace Player {
         [SerializeField] private PlayerInput input;
         [SerializeField] private float movementSpeed;
         [SerializeField] private Rigidbody2D rigidbody;
+        [SerializeField] private Transform _targetTransform;
 
-
+        public Transform targetTransform => _targetTransform;
+        
         private void Update() {
             if (this.runner.state.status != GameState.Status.Running) {
                 return;
