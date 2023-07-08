@@ -18,7 +18,7 @@ namespace Items {
             this.progressBar.gameObject.SetActive(false);
         }
 
-        public virtual void ProcessInput(PlayerInput input) {
+        public virtual void ProcessInput(Player.Input input) {
             
         }
         public virtual void TakeItem() {

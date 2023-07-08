@@ -46,16 +46,15 @@ namespace Items {
             this.spriteRenderer.color = Color.black;
         }
 
-        public override void ProcessInput(PlayerInput input) {
+        public override void ProcessInput( Player.Input input) {
             base.ProcessInput(input);
 
             if (this.isReseting) {
                 return;
             }
             
-            var didPressInteract = input.actionPressedThisFrame;
-            if (didPressInteract) {
-                this.TurnOffOnCooking();
+            if( input.is_interact_pressed ) {
+                TurnOffOnCooking();
             }
         }
 

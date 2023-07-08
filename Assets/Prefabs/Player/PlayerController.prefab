@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8517729836850001252}
   - component: {fileID: 8664883438792279032}
-  - component: {fileID: 5776944896040763651}
   - component: {fileID: 4215726148199956106}
   m_Layer: 0
   m_Name: PlayerController
@@ -172,24 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17abd7d005d74cfb963f152a7c56ea26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 5776944896040763651}
   movementSpeed: 10
-  rigidbody: {fileID: 4215726148199956106}
   _targetTransform: {fileID: 8517729836850001252}
   potionInHand: {fileID: 4794161476663451249}
   spriteRenderer: {fileID: 2877553887181193313}
---- !u!114 &5776944896040763651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5550811109160325813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e92e194022f42d2932e0cc967a82357, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &4215726148199956106
 Rigidbody2D:
   serializedVersion: 4
@@ -298,7 +283,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1001 &7787855730615273860

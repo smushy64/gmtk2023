@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Heroes;
@@ -8,14 +7,38 @@ using Runner;
 using UnityEngine;
 
 namespace Player {
+
+    public struct Input {
+        public Vector2 movement;
+        public bool is_interact_down;
+        public bool is_interact_pressed;
+        public bool is_interact_released;
+
+        public Input( Vector2 movement, bool interact_down, bool interact_pressed, bool interact_released ) {
+            this.movement = movement;
+            this.is_interact_down = interact_down;
+            this.is_interact_pressed = interact_pressed;
+            this.is_interact_released = interact_released;
+        }
+    };
+
+    [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController: GameMechanic {
-        [SerializeField] private PlayerInput input;
         [SerializeField] private float movementSpeed;
-        [SerializeField] private Rigidbody2D rigidbody;
         [SerializeField] private Transform _targetTransform;
         [SerializeField] private GameObject potionInHand;
         [SerializeField] private SpriteRenderer spriteRenderer;
 
+        // NOTE(alicia): moved input handling into playercontroller
+        public Player.Input player_input { private set; get; }
+        MappedInput mapped_input;
+
+        // NOTE(alicia): unity was complaining about
+        // hiding rigidbody inherited member so i renamed
+        // rigidbody to r2d.
+        // i also think it's better to load it at runtime
+        // since it's part of the gameobject anyway
+        Rigidbody2D r2d;
         public Transform targetTransform => _targetTransform;
 
         private BaseItemBuilder selectedBuilder;
@@ -26,19 +49,26 @@ namespace Player {
         private bool isHoldingPotion = false;
         
         private void Awake() {
+            r2d = GetComponent<Rigidbody2D>();
+            mapped_input = new MappedInput();
+
             this.potionInHand.SetActive(false);
             this.possibleSelectedHeroes = new();
         }
 
         private void Update() {
+
             if (this.runner.state.status != GameState.Status.Running) {
                 return;
             }
             
-            this.input.UpdateInput();
+            poll_input();
             if (selectedBuilder != null) {
-                this.selectedBuilder.ProcessInput(this.input);
-                if (this.selectedBuilder.itemIsFinished && this.input.actionPressedThisFrame) {
+                this.selectedBuilder.ProcessInput(player_input);
+                if(
+                    selectedBuilder.itemIsFinished &&
+                    player_input.is_interact_pressed
+                ) {
                     this.selectedBuilder.TakeItem();
                     this.potionInHand.SetActive(true);
                     this.isHoldingPotion = true;
@@ -46,7 +76,7 @@ namespace Player {
                 this.isInteractingWithBuilder = this.selectedBuilder.isBeingInteractedWith;
             }
 
-            if (this.isHoldingPotion && this.input.actionPressedThisFrame) {
+            if( isHoldingPotion && player_input.is_interact_pressed ) {
                 if (this.possibleSelectedHeroes.Count > 0) {
                     BaseHero bestHeroToSelect = null;
                     for (var i = 0; i < this.possibleSelectedHeroes.Count; i++) {
@@ -76,9 +106,10 @@ namespace Player {
                 return;
             }
 
-            if (this.isInteractingWithBuilder == false) {
-                Vector2 movementDelta = this.input.movementVector * (this.movementSpeed * Time.fixedDeltaTime);
-                this.rigidbody.MovePosition(this.transform.position.ToVector2() + movementDelta);
+            if( !isInteractingWithBuilder ) {
+                Vector2 movementDelta =
+                    player_input.movement * (movementSpeed * Time.fixedDeltaTime);
+                this.r2d.MovePosition(this.transform.position.ToVector2() + movementDelta);
             }
         }
 
@@ -106,6 +137,22 @@ namespace Player {
 
         private void OnDestroy() {
             this.spriteRenderer.DOKill();
+        }
+
+        void poll_input() {
+            player_input = new Input(
+                mapped_input.Character.Movement.ReadValue<Vector2>(),
+                mapped_input.Character.Action.IsPressed(),
+                mapped_input.Character.Action.WasPressedThisFrame(),
+                mapped_input.Character.Action.WasReleasedThisFrame()
+            );
+        }
+
+        void OnEnable() {
+            mapped_input.Enable();
+        }
+        void OnDisable() {
+            mapped_input.Disable();
         }
     }
 }

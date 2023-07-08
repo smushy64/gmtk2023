@@ -14,6 +14,9 @@ namespace Runner {
         }
 
         public Status status;
+        public void set_status( Status status ) {
+            this.status = status;
+        }
     }
 
     // a simple base class to make referencing the shared game state easier
@@ -74,9 +77,7 @@ namespace Runner {
         }
 
         public void PlayerDied() {
-            var s = this.state;
-            s.status = GameState.Status.End;
-            this.state = s;
+            state.set_status( GameState.Status.End );
             
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);
