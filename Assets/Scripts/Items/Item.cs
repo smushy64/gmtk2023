@@ -1,5 +1,5 @@
 namespace Items {
     public enum Item {
-        None, Potion, Sword, SpellBook
+        None, Potion, Sword, SpellBook, MAX
     }
 }

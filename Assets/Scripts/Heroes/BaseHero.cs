@@ -121,11 +121,15 @@ namespace Heroes {
             // }
         }
         // End of unity life cycle methods
-        public void GiveItem() {
-            if (this.state != BaseHeroState.WaitingForRequest) {
-                return;
+        public bool GiveItem( Item item ) {
+            if(
+                this.state != BaseHeroState.WaitingForRequest ||
+                requestItem != item
+            ) {
+                return false;
             }
             this.MoveState(BaseHeroState.Leaving);
+            return true;
         }
         public virtual void OnSpawn() {
             this.spriteRenderer.color = Color.white;

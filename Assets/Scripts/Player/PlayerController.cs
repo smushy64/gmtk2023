@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Heroes;
 using Items;
-using RamenSea.Foundation.Extensions;
 using RamenSea.Foundation3D.Extensions;
 using Runner;
 using UnityEngine;
@@ -51,11 +50,6 @@ namespace Player {
 
         private List<BaseHero> possibleSelectedHeroes;
 
-<<<<<<< HEAD
-=======
-        private bool isHoldingPotion = false;
-
->>>>>>> c3b80d9f6c98281d7059cd754357fb3e48c0a5a3
         private void Awake() {
             r2d = GetComponent<Rigidbody2D>();
             mapped_input = new MappedInput();
@@ -71,28 +65,12 @@ namespace Player {
             }
 
             poll_input();
-<<<<<<< HEAD
-=======
-            
-            if (selectedBuilder != null) {
-                this.selectedBuilder.ProcessInput(player_input);
-                if(
-                    selectedBuilder.itemIsFinished &&
-                    player_input.is_interact_pressed
-                ) {
-                    this.selectedBuilder.TakeItem();
-                    this.potionInHand.SetActive(true);
-                    this.isHoldingPotion = true;
-                }
-                this.isInteractingWithBuilder = this.selectedBuilder.isBeingInteractedWith;
-            }
->>>>>>> c3b80d9f6c98281d7059cd754357fb3e48c0a5a3
 
             if( player_input.is_interact_pressed ) {
                 if( held_item_type == Item.None ) {
                     Item item = Item.None;
                     LayerMask item_station_mask = (1 << 3);
-                    const int MAX_ITEM_STATION_COLLIDERS = 1;
+                    const int MAX_ITEM_STATION_COLLIDERS = (int)Item.MAX;
                     Collider2D[] colliders =
                         new Collider2D[MAX_ITEM_STATION_COLLIDERS];
 
@@ -103,8 +81,23 @@ namespace Player {
                         item_station_mask
                     );
 
+                    // NOTE(alicia): pick the collider that is
+                    // closest to the player
+                    Collider2D collider = colliders[0];
+                    float shortest_distance =
+                        (collider.transform.position - transform.position)
+                        .sqrMagnitude;
+                    for( int i = 1; i < num_colliders; ++i ) {
+                        float distance = 
+                        (colliders[i].transform.position - transform.position)
+                        .sqrMagnitude;
+                        if( distance < shortest_distance ) {
+                            shortest_distance = distance;
+                            collider = colliders[i];
+                        }
+                    }
+
                     if( num_colliders != 0 ) {
-                        Collider2D collider = colliders[0];
                         ItemStation station =
                             collider.gameObject.GetComponent<ItemStation>();
                         item = station.on_interact();
@@ -129,8 +122,10 @@ namespace Player {
                             }
                         }
 
-                        if( bestHeroToSelect != null ) {
-                            bestHeroToSelect.GiveItem();
+                        if(
+                            bestHeroToSelect != null &&
+                            bestHeroToSelect.GiveItem( held_item_type )
+                        ) {
                             held_item_type = Item.None;
                             heldItem.SetActive( false );
                         }
@@ -138,17 +133,15 @@ namespace Player {
                 }
             }
 
-            if (this.isInteractingWithBuilder == false) {
-                if (Mathf.Approximately(this.player_input.movement.x, 0)) {
-                    this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
-                } else {
-                    this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, this.player_input.movement.x >= 0 ? 1 : -1);
-                }
-                if (Mathf.Approximately(this.player_input.movement.y, 0)) {
-                    this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
-                } else {
-                    this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, this.player_input.movement.y >= 0 ? 1 : -1);
-                }
+            if (Mathf.Approximately(this.player_input.movement.x, 0)) {
+                this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
+            } else {
+                this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, this.player_input.movement.x >= 0 ? 1 : -1);
+            }
+            if (Mathf.Approximately(this.player_input.movement.y, 0)) {
+                this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
+            } else {
+                this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, this.player_input.movement.y >= 0 ? 1 : -1);
             }
         }
 
@@ -185,14 +178,6 @@ namespace Player {
             }
         }
 
-        public void SetSelectedItemBuilderArea(BaseItemBuilder builder) {
-            // this.selectedBuilder = builder;
-        }
-        public void ClearSelectedItemBuilderArea(BaseItemBuilder builder) {
-            // if (this.selectedBuilder == builder) {
-            //     this.selectedBuilder = null;
-            // }
-        }
         public void AddSelectedHero(BaseHero hero) {
             if (this.possibleSelectedHeroes.Contains(hero) == false) {
                 this.possibleSelectedHeroes.Add(hero);

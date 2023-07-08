@@ -795,6 +795,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3305008ad7441779b702e86ed8fb886, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &686109111 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4794161476663451249, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
+  m_PrefabInstance: {fileID: 8810283886815522880}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &983029986
 GameObject:
   m_ObjectHideFlags: 0
@@ -1955,8 +1960,7 @@ MonoBehaviour:
   itemToPrepare: 1
   preparationTime: 1
   failureTime: 1.5
-  resetTime: 2
-  interactRadius: 1
+  timerText: {fileID: 0}
 --- !u!58 &7879862602617679555
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2048,6 +2052,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8664883438792279032, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
+      propertyPath: heldItem
+      value: 
+      objectReference: {fileID: 686109111}
     - target: {fileID: 8664883438792279032, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
       propertyPath: movementSpeed
       value: 5
