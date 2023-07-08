@@ -306,10 +306,12 @@ MonoBehaviour:
   variant: 0
   madWalkingSpeed: 0.3
   madChargingSpeed: 5
-  timeForBeginChargingAnimation: 0.3
+  timeForBeginChargingAnimation: 1
   durationOfCharge: 2
   targetingOffAxisDifference: 0.05
   distanceTriggerCharge: 0.4
+  chargeAttackRange: 0.1
+  chargeDamage: 1
 --- !u!50 &1656457147449675210
 Rigidbody2D:
   serializedVersion: 4

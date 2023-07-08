@@ -18,6 +18,8 @@ namespace Heroes {
         [SerializeField] private float durationOfCharge;
         [SerializeField] private float targetingOffAxisDifference;
         [SerializeField] private float distanceTriggerCharge;
+        [SerializeField] private float chargeAttackRange;
+        [SerializeField] private int chargeDamage;
 
 
         private Vector2 chargeDirection;
@@ -71,9 +73,16 @@ namespace Heroes {
                             this.SetMovementAnimation(moveDelta);
                             this.rigidbody.MovePosition(this.transform.position + moveDelta.ToVector3());
                             this.chargetimer -= Time.fixedDeltaTime;
+                            var distance = this.transform.position.ToVector2()
+                                               .Distance(this.runner.player.targetTransform.position);
+                            if (distance <= this.chargeAttackRange) { //// eh just measure the distance each frome LOL
+                                this.runner.player.TakeDamage(this.chargeDamage);
+                            }
+                            
                             if (this.chargetimer <= 0f) {
                                 this.isCharging = false;
                             }
+
                         }
                     }
                     break;
