@@ -115,7 +115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497023208402850465}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.17, y: -0.243, z: 0}
+  m_LocalPosition: {x: -0.17, y: -0.114, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -304,9 +304,9 @@ MonoBehaviour:
   animator: {fileID: 2120170084945289016}
   rigidbody: {fileID: 1656457147449675210}
   variant: 0
-  randomWalkingSpeed: 0
-  walkingSpeedAtPlayer: 0
-  walkingSpeedAtPlayerFast: 0
+  randomWalkingSpeed: 0.5
+  walkingSpeedAtPlayer: 0.3
+  walkingSpeedAtPlayerFast: 1.4
   attackFrom: {fileID: 2057121710655561579}
 --- !u!50 &1656457147449675210
 Rigidbody2D:
@@ -321,8 +321,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.3
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 10
+  m_AngularDrag: 10
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -360,7 +360,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6792167821323744192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.036, y: -0.196, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -410,7 +410,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.94, y: 0.74}
+  m_Size: {x: 0.39, y: 0.31}
   m_EdgeRadius: 0
 --- !u!1001 &9123132399320198799
 PrefabInstance:

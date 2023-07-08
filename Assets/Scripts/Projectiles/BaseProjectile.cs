@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using JetBrains.Annotations;
 using Player;
 using Runner;
@@ -21,6 +22,8 @@ namespace Projectiles {
         [SerializeField] protected float timeToRecycle = 0.1f;
         [SerializeField] protected int damage = 1;
         [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
+        [SerializeField] protected SpriteRenderer spriteRenderer;
+        
         public IProjectileRecycler recycler;
         public GameRunner runner;
         
@@ -51,6 +54,7 @@ namespace Projectiles {
         }
 
         public void OnRecycle() {
+            this.spriteRenderer.DOKill();
             this.hasSpawned = false;
         }
 
@@ -71,8 +75,7 @@ namespace Projectiles {
             }
             this.recycler.Recycle(this);
         }
-        protected void AnimateProjectileDeath() {
-            
+        protected virtual void AnimateProjectileDeath() {
         }
         protected virtual void OnHitPlayer(PlayerController player, [CanBeNull] Collision2D collision) {
             if (this.hasSpawned == false || this.isRecycling) {
