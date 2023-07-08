@@ -42,7 +42,7 @@ namespace Heroes {
         [Button("Test Spawn", EButtonEnableMode.Playmode)]
         private void RandomSpawn() {
             this.numberOfSpawns++;
-            var h = this.runner.heroRecycler.Spawn(HeroType.Gremlin, (byte) GremlinVariant.Green);
+            var h = this.runner.heroRecycler.Spawn(HeroType.Merlin, (byte) MerlinVariant.BlueRobe);
             Vector2 spawn;
             if (this.random.NextBool(0.3f)) {
                 spawn.y = -this.spawnArea.y;
