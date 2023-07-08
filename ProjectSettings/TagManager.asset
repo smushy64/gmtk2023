@@ -50,3 +50,6 @@ TagManager:
   - name: Projectiles
     uniqueID: 3807445833
     locked: 0
+  - name: Sliders
+    uniqueID: 1598942827
+    locked: 0

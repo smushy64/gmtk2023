@@ -1,10 +1,12 @@
 using System;
+using General;
 using Items;
 using RamenSea.Foundation.Extensions;
 using RamenSea.Foundation3D.Extensions;
 using Runner;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Heroes {
     public enum HeroType: byte {
@@ -27,10 +29,12 @@ namespace Heroes {
         public virtual byte heroVariantValue => 0;
         
         [DoNotSerialize] public GameRunner runner;
+        [DoNotSerialize] public GameProgressBar progressBar;
         
         // Editor fields
         [SerializeField] protected float walkingInSpeed = 1f;
         [SerializeField] protected float leavingSpeed = 1f;
+        [SerializeField] protected float generalRequestTime = 5f;
 
         protected float requestTimer = 0f;
         protected BaseHeroState state;
@@ -46,6 +50,7 @@ namespace Heroes {
         // We can remove these if we don't end up using em
         protected virtual void Awake() {
             this.state = BaseHeroState.NotSpawned;
+            this.progressBar.gameObject.SetActive(false);
         }
         protected virtual void Start() { }
         protected virtual void OnEnable() { }
@@ -68,6 +73,7 @@ namespace Heroes {
                 }
                 case BaseHeroState.WaitingForRequest: {
                     this.requestTimer -= Time.deltaTime;
+                    this.progressBar.SetProgress((this.generalRequestTime - this.requestTimer) / this.generalRequestTime);
                     if (this.requestTimer <= 0f) {
                         this.MoveState(BaseHeroState.Mad);
                     }
@@ -105,12 +111,23 @@ namespace Heroes {
         }
 
         protected virtual void MoveState(BaseHeroState newState) {
-            Debug.Log($"{this.heroType} - is moving to {newState} from {this.state}"); //todo remove
-
+            var oldState = this.state;
             this.state = newState;
+            Debug.Log($"{this.heroType} - is moving to {newState} from {oldState}"); //todo remove
+
+            switch (oldState) { //old state
+                case BaseHeroState.WaitingForRequest: {
+                    this.progressBar.gameObject.SetActive(false);
+                    break;
+                }
+            }
+            
+            
             switch (this.state) {
                 case BaseHeroState.WaitingForRequest: {
-                    this.requestTimer = 2f; // todo actually have this set a usable time. JUST A TEST VALUE
+                    this.progressBar.gameObject.SetActive(true);
+                    this.progressBar.SetProgress(0f);
+                    this.requestTimer = this.generalRequestTime; // todo actually have this set a usable time. JUST A TEST VALUE
                     break;
                 }
             }
