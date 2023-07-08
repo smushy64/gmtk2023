@@ -46,6 +46,15 @@ namespace Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DiscardItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""2b8cc738-8180-4f9c-845b-bb49ed632113"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -105,6 +114,61 @@ namespace Player
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""8353a7c7-698a-4ae9-ba07-a3701aeac261"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""8dc83054-dec0-4ed9-936a-11ff597181b4"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""acf33636-3d76-47df-9707-14c78b8cab26"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""e8c9f3c9-44ad-49e9-9771-d39ff17a7255"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""ffaf55c6-4437-4987-8d6e-df78c56f96aa"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""c6879955-15ee-4695-9dbd-ed88ec048b56"",
                     ""path"": ""<Gamepad>/leftStick"",
@@ -128,18 +192,29 @@ namespace Player
                 },
                 {
                     ""name"": """",
-                    ""id"": ""28a015ab-89c4-4613-ab4e-ec4607ea1b0c"",
-                    ""path"": ""<Gamepad>/rightStick"",
+                    ""id"": ""12179a7a-63a6-45fe-afb5-e4a4b264a4f0"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""General"",
-                    ""action"": ""Movement"",
+                    ""action"": ""Action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""12179a7a-63a6-45fe-afb5-e4a4b264a4f0"",
+                    ""id"": ""54d39312-4d15-483b-a718-cf98c916b4e2"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""502c2b0f-3380-4970-b269-8b3767db1072"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -161,17 +236,6 @@ namespace Player
                 },
                 {
                     ""name"": """",
-                    ""id"": ""246cbbce-c498-4790-b81b-438511ab9991"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""General"",
-                    ""action"": ""Action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""b480a97a-a689-4391-91bf-1b6b28056941"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
@@ -183,12 +247,45 @@ namespace Player
                 },
                 {
                     ""name"": """",
+                    ""id"": ""599383ee-b5a0-4387-ae21-371586381f10"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""DiscardItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""531f519d-34ce-45a0-a794-4f4d506297c3"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""DiscardItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""fc31fe9a-d2e5-4827-b0e7-f5a2b70d7723"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""General"",
-                    ""action"": ""Action"",
+                    ""action"": ""DiscardItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""246cbbce-c498-4790-b81b-438511ab9991"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""DiscardItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -223,6 +320,7 @@ namespace Player
             m_Character = asset.FindActionMap("Character", throwIfNotFound: true);
             m_Character_Movement = m_Character.FindAction("Movement", throwIfNotFound: true);
             m_Character_Action = m_Character.FindAction("Action", throwIfNotFound: true);
+            m_Character_DiscardItem = m_Character.FindAction("DiscardItem", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -286,12 +384,14 @@ namespace Player
         private List<ICharacterActions> m_CharacterActionsCallbackInterfaces = new List<ICharacterActions>();
         private readonly InputAction m_Character_Movement;
         private readonly InputAction m_Character_Action;
+        private readonly InputAction m_Character_DiscardItem;
         public struct CharacterActions
         {
             private @MappedInput m_Wrapper;
             public CharacterActions(@MappedInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_Character_Movement;
             public InputAction @Action => m_Wrapper.m_Character_Action;
+            public InputAction @DiscardItem => m_Wrapper.m_Character_DiscardItem;
             public InputActionMap Get() { return m_Wrapper.m_Character; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -307,6 +407,9 @@ namespace Player
                 @Action.started += instance.OnAction;
                 @Action.performed += instance.OnAction;
                 @Action.canceled += instance.OnAction;
+                @DiscardItem.started += instance.OnDiscardItem;
+                @DiscardItem.performed += instance.OnDiscardItem;
+                @DiscardItem.canceled += instance.OnDiscardItem;
             }
 
             private void UnregisterCallbacks(ICharacterActions instance)
@@ -317,6 +420,9 @@ namespace Player
                 @Action.started -= instance.OnAction;
                 @Action.performed -= instance.OnAction;
                 @Action.canceled -= instance.OnAction;
+                @DiscardItem.started -= instance.OnDiscardItem;
+                @DiscardItem.performed -= instance.OnDiscardItem;
+                @DiscardItem.canceled -= instance.OnDiscardItem;
             }
 
             public void RemoveCallbacks(ICharacterActions instance)
@@ -347,6 +453,7 @@ namespace Player
         {
             void OnMovement(InputAction.CallbackContext context);
             void OnAction(InputAction.CallbackContext context);
+            void OnDiscardItem(InputAction.CallbackContext context);
         }
     }
 }

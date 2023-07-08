@@ -14,11 +14,26 @@ namespace Player {
         public bool is_interact_pressed;
         public bool is_interact_released;
 
-        public Input( Vector2 movement, bool interact_down, bool interact_pressed, bool interact_released ) {
+        public bool is_discard_down;
+        public bool is_discard_pressed;
+        public bool is_discard_released;
+
+        public Input(
+            Vector2 movement,
+            bool interact_down,
+            bool interact_pressed,
+            bool interact_released,
+            bool discard_down,
+            bool discard_pressed,
+            bool discard_released
+        ) {
             this.movement = movement;
             this.is_interact_down = interact_down;
             this.is_interact_pressed = interact_pressed;
             this.is_interact_released = interact_released;
+            is_discard_down = discard_down;
+            is_discard_pressed = discard_pressed;
+            is_discard_released = discard_released;
         }
     };
 
@@ -142,6 +157,11 @@ namespace Player {
                 }
             }
 
+            if( player_input.is_discard_pressed ) {
+                held_item_type = Item.None;
+                heldItem.gameObject.SetActive( false );
+            }
+
             if (Mathf.Approximately(this.player_input.movement.x, 0)) {
                 this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
             } else {
@@ -207,11 +227,14 @@ namespace Player {
 
         void poll_input() {
             player_input = new Input(
-                    mapped_input.Character.Movement.ReadValue<Vector2>(),
-                    mapped_input.Character.Action.IsPressed(),
-                    mapped_input.Character.Action.WasPressedThisFrame(),
-                    mapped_input.Character.Action.WasReleasedThisFrame()
-                    );
+                mapped_input.Character.Movement.ReadValue<Vector2>(),
+                mapped_input.Character.Action.IsPressed(),
+                mapped_input.Character.Action.WasPressedThisFrame(),
+                mapped_input.Character.Action.WasReleasedThisFrame(),
+                mapped_input.Character.DiscardItem.IsPressed(),
+                mapped_input.Character.DiscardItem.WasPressedThisFrame(),
+                mapped_input.Character.DiscardItem.WasReleasedThisFrame()
+            );
         }
 
         void OnEnable() {
