@@ -31,7 +31,10 @@ namespace UI {
             }
         }
         public void ResetButton() {
-            SceneManager.LoadScene("Game", LoadSceneMode.Single);
+            SceneManager.LoadScene(
+                SceneManager.GetActiveScene().buildIndex,
+                LoadSceneMode.Single
+            );
         }
     }
 }
