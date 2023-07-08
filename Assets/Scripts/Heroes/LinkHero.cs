@@ -62,7 +62,7 @@ namespace Heroes {
                             var moveDelta = moveDirection * (this.madWalkingSpeed * Time.fixedDeltaTime);
 
                             this.SetMovementAnimation(moveDelta);
-                            this.rigidbody.MovePosition(this.transform.position + moveDelta.ToVector3());
+                            this.r2d.MovePosition(this.transform.position + moveDelta.ToVector3());
                         }
                         
                     } else {
@@ -71,7 +71,7 @@ namespace Heroes {
                         } else {
                             var moveDelta = this.chargeDirection * (this.madChargingSpeed * Time.fixedDeltaTime);
                             this.SetMovementAnimation(moveDelta);
-                            this.rigidbody.MovePosition(this.transform.position + moveDelta.ToVector3());
+                            this.r2d.MovePosition(this.transform.position + moveDelta.ToVector3());
                             this.chargetimer -= Time.fixedDeltaTime;
                             var distance = this.transform.position.ToVector2()
                                                .Distance(this.runner.player.targetTransform.position);

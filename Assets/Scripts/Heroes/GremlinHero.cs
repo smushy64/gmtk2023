@@ -100,7 +100,7 @@ namespace Heroes {
                         this.randomDirection = new Vector2(this.random.Next(-1f, 1f), this.random.Next(-1f, 1f));
                     }
                     Vector2 movementDelta = this.randomDirection * (this.randomWalkingSpeed * Time.fixedDeltaTime);
-                    this.rigidbody.MovePosition(this.transform.position.ToVector2() + movementDelta);
+                    this.r2d.MovePosition(this.transform.position.ToVector2() + movementDelta);
                     this.SetMovementAnimation(movementDelta);
                     break;
                 }
@@ -111,7 +111,7 @@ namespace Heroes {
                         ? this.walkingSpeedAtPlayer
                         : this.walkingSpeedAtPlayerFast;
                     Vector2 movementDelta = directionToPlayer * (speed * Time.fixedDeltaTime);
-                    this.rigidbody.MovePosition(this.transform.position.ToVector2() + movementDelta);
+                    this.r2d.MovePosition(this.transform.position.ToVector2() + movementDelta);
                     this.SetMovementAnimation(movementDelta);
                     break;
                 }

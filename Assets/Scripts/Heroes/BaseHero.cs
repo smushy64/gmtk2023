@@ -45,7 +45,7 @@ namespace Heroes {
         [SerializeField] protected SpriteRenderer spriteRenderer;
         [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
         [SerializeField] protected Animator animator;
-        [SerializeField] protected Rigidbody2D rigidbody; //todo
+        protected Rigidbody2D r2d; //todo
 
 
         protected float requestTimer = 0f;
@@ -65,6 +65,7 @@ namespace Heroes {
         // Stubbed out a few of the common mono behavior life cycle classes to make it easier work in the future
         // We can remove these if we don't end up using em
         protected virtual void Awake() {
+            r2d = GetComponent<Rigidbody2D>();
             this._state = BaseHeroState.NotSpawned;
             this.progressBar.gameObject.SetActive(false);
             this.playerCollisionDetection.listener = this;
@@ -158,8 +159,8 @@ namespace Heroes {
             
             switch (this.state) {
                 case BaseHeroState.WalkingIn: {
-                    if (this.rigidbody != null) {
-                        this.rigidbody.bodyType = RigidbodyType2D.Kinematic;
+                    if (this.r2d != null) {
+                        this.r2d.bodyType = RigidbodyType2D.Kinematic;
                     }
                     break;
                 }
@@ -171,8 +172,8 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.Mad: {
-                    if (this.rigidbody != null) {
-                        this.rigidbody.bodyType = RigidbodyType2D.Dynamic;
+                    if (this.r2d != null) {
+                        this.r2d.bodyType = RigidbodyType2D.Dynamic;
                     }
                     this.spriteRenderer.DOColor(new Color(0.95f, 0.29f, 0.31f), 0.4f);
                     break;
