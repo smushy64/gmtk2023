@@ -42,7 +42,12 @@ namespace Heroes {
             base.MoveState(newState);
 
             switch (this.state) {
+                case BaseHeroState.WalkingIn: {
+                    this.rigidbody.bodyType = RigidbodyType2D.Kinematic;
+                    break;
+                }
                 case BaseHeroState.Mad: {
+                    this.rigidbody.bodyType = RigidbodyType2D.Dynamic;
                     this.SetNewBehavior();
                     break;
                 }
@@ -80,11 +85,15 @@ namespace Heroes {
             
             switch (this.behavior) {
                 case MadBehavior.Idle: {
+                    if (this.firstTimeWithBehavior) {
+                        this.SetMovementAnimation(Vector2.zero);
+                    }
                     break;
                 }
                 case MadBehavior.Barf: {
                     if (this.firstTimeWithBehavior) {
                         this.Barf();
+                        this.SetMovementAnimation(Vector2.zero);
                     }
                     break;
                 }
@@ -94,6 +103,7 @@ namespace Heroes {
                     }
                     Vector2 movementDelta = this.randomDirection * (this.randomWalkingSpeed * Time.fixedDeltaTime);
                     this.rigidbody.MovePosition(this.transform.position.ToVector2() + movementDelta);
+                    this.SetMovementAnimation(movementDelta);
                     break;
                 }
                 case MadBehavior.WalkTowardsTarget:
@@ -104,6 +114,7 @@ namespace Heroes {
                         : this.walkingSpeedAtPlayerFast;
                     Vector2 movementDelta = directionToPlayer * (speed * Time.fixedDeltaTime);
                     this.rigidbody.MovePosition(this.transform.position.ToVector2() + movementDelta);
+                    this.SetMovementAnimation(movementDelta);
                     break;
                 }
             }
@@ -147,7 +158,7 @@ namespace Heroes {
                     return 0.33f;
                 }
                 case MadBehavior.Barf: {
-                    return 0.1f;
+                    return 0.05f;
                 }
             }
 
@@ -156,13 +167,13 @@ namespace Heroes {
         private float GetNextBehaviorTime(MadBehavior behaviour) {
             switch (this.behavior) {
                 case MadBehavior.Idle: {
-                    return this.random.Next(1f,3f);
+                    return this.random.Next(0.3f,0.9f);
                 }
                 case MadBehavior.WalkRandomly: {
-                    return this.random.Next(1f,2f);
+                    return this.random.Next(0.3f,1.4f);
                 }
                 case MadBehavior.WalkTowardsTarget: {
-                    return this.random.Next(1f,4f);
+                    return this.random.Next(0.3f,1.4f);
                 }
                 case MadBehavior.Barf: {
                     return 0.2f;
@@ -173,7 +184,8 @@ namespace Heroes {
         }
 
         private void Barf() {
-            
+            var barf = this.runner.projectileRecycler.Spawn<GremlinBarfProjectile>();
+            barf.transform.position = this.attackFrom.position;
         }
     }
 }
