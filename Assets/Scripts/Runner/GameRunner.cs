@@ -77,7 +77,9 @@ namespace Runner {
         }
 
         public void PlayerDied() {
-            state.set_status( GameState.Status.End );
+            var s = this.state;
+            s.status = GameState.Status.End; // reverting this, since accessing a synthetic property in c# isn't which as intuitive as you'd think
+            this.state = s;
             
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);
