@@ -1674,7 +1674,7 @@ PrefabInstance:
     - target: {fileID: 1712910083847609188, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[1]
       value: 
-      objectReference: {fileID: 1919232488}
+      objectReference: {fileID: 1982111800}
     - target: {fileID: 1712910083847609188, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[2]
       value: 
@@ -1682,7 +1682,7 @@ PrefabInstance:
     - target: {fileID: 1712910083847609188, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[3]
       value: 
-      objectReference: {fileID: 647921584}
+      objectReference: {fileID: 1919232488}
     - target: {fileID: 1712910083847609188, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[4]
       value: 
@@ -1690,7 +1690,7 @@ PrefabInstance:
     - target: {fileID: 1712910083847609188, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[5]
       value: 
-      objectReference: {fileID: 1982111800}
+      objectReference: {fileID: 647921584}
     - target: {fileID: 2570606745023805496, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1761,10 +1761,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5517258025110548873, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: heroPrefabs.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5517258025110548873, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: heroPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 3205362814943591058, guid: 02c3af587bdcf4a0788a6ce946b0dc40, type: 3}
+    - target: {fileID: 5517258025110548873, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: heroPrefabs.Array.data[1]
       value: 
       objectReference: {fileID: 1373950777737911985, guid: 7ad26ad03eaf8402f9187b196bc59366, type: 3}
     m_RemovedComponents: []

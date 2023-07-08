@@ -25,6 +25,10 @@ namespace Heroes {
         NotSpawned, WalkingIn, WaitingForRequest, Leaving, Mad, Left
     }
     public class BaseHero: MonoBehaviour, IPlayerCollisionDetectionListener {
+        protected static readonly int ANIMATOR_IS_MAD = Animator.StringToHash("IsMad");
+        protected static readonly int ANIMATOR_HORIZONTAL_MOVE = Animator.StringToHash("HorizontalMove");
+        protected static readonly int ANIMATOR_VERTICAL_MOVE = Animator.StringToHash("VerticalMove");
+        
         // Enum specifying the type of hero the subclass is
         public virtual HeroType heroType => HeroType.None;
         // Allows you to get the variant enum without having to cast to a class
@@ -40,6 +44,7 @@ namespace Heroes {
         [SerializeField] protected float generalRequestTime = 5f;
         [SerializeField] protected SpriteRenderer spriteRenderer;
         [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
+        [SerializeField] protected Animator animator;
 
 
         protected float requestTimer = 0f;
@@ -48,7 +53,7 @@ namespace Heroes {
         protected Item _requestItem;
         protected Vector2 spawnLocation;
         protected Vector2 requestLocation;
-        
+
         public Item requestItem => this._requestItem;
         public float timeTilMad => this.requestTimer;
         public BaseHeroState state => this._state;
@@ -69,14 +74,17 @@ namespace Heroes {
             var position = this.transform.position;
             switch (this.state) {
                 case BaseHeroState.WalkingIn: {
-                    position = Vector3.MoveTowards(position, this.requestLocation.ToVector3(position.y),
+                    var updatedPosition = Vector3.MoveTowards(position, this.requestLocation.ToVector3(position.y),
                                                    this.walkingInSpeed * Time.deltaTime);
+                    var moveSpeed = updatedPosition - position;
+                    position = updatedPosition;
                     if (Mathf.Approximately(position.x, this.requestLocation.x) &&
                         Mathf.Approximately(position.y, this.requestLocation.y)) {
                         this.transform.position = this.requestLocation;
                         this.MoveState(BaseHeroState.WaitingForRequest);
                     } else {
                         this.transform.position = position;
+                        this.SetMovementAnimation(moveSpeed);
                     }
                     break;
                 }
@@ -89,14 +97,18 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.Leaving: {
-                    position = Vector3.MoveTowards(position, this.spawnLocation.ToVector3(position.y),
-                                                   this.leavingSpeed * Time.deltaTime);
+                    var updatedPosition = Vector3.MoveTowards(position, this.spawnLocation.ToVector3(position.y),
+                                                              this.leavingSpeed * Time.deltaTime);
+                    var moveSpeed = updatedPosition - position;
+                    position = updatedPosition;
+                    
                     if (Mathf.Approximately(position.x, this.spawnLocation.x) &&
                         Mathf.Approximately(position.y, this.spawnLocation.y)) {
                         this.transform.position = this.spawnLocation;
                         this.MoveState(BaseHeroState.Left);
                     } else {
                         this.transform.position = position;
+                        this.SetMovementAnimation(moveSpeed);
                     }
                     break;
                 }
@@ -146,6 +158,7 @@ namespace Heroes {
                     this.progressBar.gameObject.SetActive(true);
                     this.progressBar.SetProgress(0f);
                     this.requestTimer = this.generalRequestTime; // todo actually have this set a usable time. JUST A TEST VALUE
+                    this.SetMovementAnimation(Vector2.zero);
                     break;
                 }
                 case BaseHeroState.Mad: {
@@ -158,11 +171,34 @@ namespace Heroes {
                 }
                 case BaseHeroState.Left: {
                     this.recycler.Recycle(this);
+                    this.ClearAnimator();
                     break;
                 }
             }
 
         }
+
+        //Animation stuff
+        protected void ClearAnimator() {
+            this.animator.SetBool(ANIMATOR_IS_MAD, false);
+            this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
+            this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
+        }
+        protected void SetMovementAnimation(Vector2 move) {
+            if (Mathf.Approximately(move.x, 0)) {
+                this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
+            } else {
+                this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, move.x >= 0 ? 1 : -1);
+            }
+            if (Mathf.Approximately(move.y, 0)) {
+                this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
+            } else {
+                this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, move.y >= 0 ? 1 : -1);
+            }
+        }
+        
+        
+        
         public void OnPlayerTriggerEnter2D(PlayerController player, Collider2D other) {
             player.AddSelectedHero(this);
         }

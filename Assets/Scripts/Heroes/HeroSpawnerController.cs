@@ -42,7 +42,7 @@ namespace Heroes {
         [Button("Test Spawn", EButtonEnableMode.Playmode)]
         private void RandomSpawn() {
             this.numberOfSpawns++;
-            var merlin = this.runner.heroRecycler.Spawn(HeroType.Merlin, (byte) MerlinVariant.BlueRobe);
+            var karen = this.runner.heroRecycler.Spawn(HeroType.Karen, (byte) KarenVariant.Default);
             Vector2 spawn;
             if (this.random.NextBool(0.3f)) {
                 spawn.y = -this.spawnArea.y;
@@ -57,7 +57,7 @@ namespace Heroes {
 
             var directionToCenter = spawn.Direction(Vector2.zero);
             var requestLocation = spawn + directionToCenter * this.random.Next(this.distanceSpawn.x, this.distanceSpawn.y);
-            merlin.SetUp(Item.Potion, spawn, requestLocation);
+            karen.SetUp(Item.Potion, spawn, requestLocation);
         }
         public override void OnStateChange(GameState state) {
             base.OnStateChange(state);
