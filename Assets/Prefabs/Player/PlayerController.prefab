@@ -175,6 +175,7 @@ MonoBehaviour:
   _targetTransform: {fileID: 8517729836850001252}
   potionInHand: {fileID: 4794161476663451249}
   spriteRenderer: {fileID: 2877553887181193313}
+  animator: {fileID: 2281398471440807687}
 --- !u!50 &4215726148199956106
 Rigidbody2D:
   serializedVersion: 4
@@ -212,6 +213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3873735472665341856}
   - component: {fileID: 2877553887181193313}
+  - component: {fileID: 2281398471440807687}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -275,7 +277,7 @@ SpriteRenderer:
   m_SortingLayerID: -1686726621
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d0a954b6ac1974baa895857ac280754f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3cf75a3eef4234473939b969749497fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -283,9 +285,30 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2281398471440807687
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6567635501109536307}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 697e3a59b42ad4e6a8e5027fb50f134e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &7787855730615273860
 PrefabInstance:
   m_ObjectHideFlags: 0

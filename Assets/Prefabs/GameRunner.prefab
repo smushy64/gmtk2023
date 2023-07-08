@@ -32,7 +32,7 @@ Transform:
   - {fileID: 2076272681776495976}
   - {fileID: 5794711836326367035}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1712910083847609188
 MonoBehaviour:
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefabs:
+  - {fileID: 1383250985042338718, guid: 53ac07a21d7784d4087046a2dbebd529, type: 3}
   - {fileID: 7732263603777674860, guid: a649844f0d8e649baa2a21f5c3406187, type: 3}
   - {fileID: 4678149373516960902, guid: 4a393d7e3d936432b91f8b9f96852513, type: 3}
 --- !u!1 &6330311173045143707
@@ -148,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroPrefabs:
+  - {fileID: 3205362814943591058, guid: 02c3af587bdcf4a0788a6ce946b0dc40, type: 3}
   - {fileID: 1373950777737911985, guid: 7ad26ad03eaf8402f9187b196bc59366, type: 3}
   entrances: []
   waitingSpots: []
@@ -163,4 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcef41139f9470b98c32171b7ef27bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeTilSpawn: 10
+  timeTilSpawnEasy: 10
+  timeTilSpawnHard: 10
+  spawnArea: {x: 0, y: 0}
+  distanceSpawn: {x: 0, y: 0}

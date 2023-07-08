@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Heroes;
 using Items;
+using RamenSea.Foundation.Extensions;
 using RamenSea.Foundation3D.Extensions;
 using Runner;
 using UnityEngine;
@@ -24,10 +25,15 @@ namespace Player {
 
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController: GameMechanic {
+        private static readonly int ANIMATOR_HORIZONTAL_MOVE = Animator.StringToHash("HorizontalMove");
+        private static readonly int ANIMATOR_VERTICAL_MOVE = Animator.StringToHash("VerticalMove");
+        private static readonly int ANIMATOR_DEAD = Animator.StringToHash("IsDead");
+        
         [SerializeField] private float movementSpeed;
         [SerializeField] private Transform _targetTransform;
         [SerializeField] private GameObject heldItem;
         [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private Animator animator;
 
         // NOTE(alicia): moved input handling into playercontroller
         public Player.Input player_input { private set; get; }
@@ -45,6 +51,11 @@ namespace Player {
 
         private List<BaseHero> possibleSelectedHeroes;
 
+<<<<<<< HEAD
+=======
+        private bool isHoldingPotion = false;
+
+>>>>>>> c3b80d9f6c98281d7059cd754357fb3e48c0a5a3
         private void Awake() {
             r2d = GetComponent<Rigidbody2D>();
             mapped_input = new MappedInput();
@@ -60,6 +71,22 @@ namespace Player {
             }
 
             poll_input();
+<<<<<<< HEAD
+=======
+            
+            if (selectedBuilder != null) {
+                this.selectedBuilder.ProcessInput(player_input);
+                if(
+                    selectedBuilder.itemIsFinished &&
+                    player_input.is_interact_pressed
+                ) {
+                    this.selectedBuilder.TakeItem();
+                    this.potionInHand.SetActive(true);
+                    this.isHoldingPotion = true;
+                }
+                this.isInteractingWithBuilder = this.selectedBuilder.isBeingInteractedWith;
+            }
+>>>>>>> c3b80d9f6c98281d7059cd754357fb3e48c0a5a3
 
             if( player_input.is_interact_pressed ) {
                 if( held_item_type == Item.None ) {
@@ -110,6 +137,19 @@ namespace Player {
                     }
                 }
             }
+
+            if (this.isInteractingWithBuilder == false) {
+                if (Mathf.Approximately(this.player_input.movement.x, 0)) {
+                    this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
+                } else {
+                    this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, this.player_input.movement.x >= 0 ? 1 : -1);
+                }
+                if (Mathf.Approximately(this.player_input.movement.y, 0)) {
+                    this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
+                } else {
+                    this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, this.player_input.movement.y >= 0 ? 1 : -1);
+                }
+            }
         }
 
         private void FixedUpdate() {
@@ -120,6 +160,29 @@ namespace Player {
             Vector2 movementDelta =
                 player_input.movement * (movementSpeed * Time.fixedDeltaTime);
             this.r2d.MovePosition(this.transform.position.ToVector2() + movementDelta);
+        }
+
+        public override void OnStateChange(GameState state) {
+            base.OnStateChange(state);
+            switch (state.status) {
+                case GameState.Status.SetUp: {
+                    //clear the animator just cuz
+                    this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
+                    this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
+                    this.animator.SetBool(ANIMATOR_DEAD, false);
+                    break;
+                }
+                case GameState.Status.Running: {
+
+                    break;
+                }
+                case GameState.Status.End: {
+                    this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
+                    this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
+                    this.animator.SetBool(ANIMATOR_DEAD, true);
+                    break;
+                }
+            }
         }
 
         public void SetSelectedItemBuilderArea(BaseItemBuilder builder) {
