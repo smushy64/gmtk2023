@@ -654,11 +654,6 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
---- !u!1 &686109111 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4794161476663451249, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
-  m_PrefabInstance: {fileID: 8810283886815522880}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &821296965 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8768228192410527560, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
@@ -1572,11 +1567,11 @@ PrefabInstance:
     - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[0]
       value: 
-      objectReference: {fileID: 6329291634624688897}
+      objectReference: {fileID: 821296965}
     - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[1]
       value: 
-      objectReference: {fileID: 1982111800}
+      objectReference: {fileID: 1919232488}
     - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[2]
       value: 
@@ -1584,15 +1579,15 @@ PrefabInstance:
     - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[3]
       value: 
-      objectReference: {fileID: 4767373905319558900}
+      objectReference: {fileID: 1982111800}
     - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[4]
       value: 
-      objectReference: {fileID: 1919232488}
+      objectReference: {fileID: 4767373905319558900}
     - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[5]
       value: 
-      objectReference: {fileID: 821296965}
+      objectReference: {fileID: 6329291634624688897}
     - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: mechanics.Array.data[6]
       value: 
@@ -1800,14 +1795,6 @@ PrefabInstance:
     - target: {fileID: 8517729836850001252, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8664883438792279032, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
-      propertyPath: heldItem
-      value: 
-      objectReference: {fileID: 686109111}
-    - target: {fileID: 8664883438792279032, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
-      propertyPath: movementSpeed
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

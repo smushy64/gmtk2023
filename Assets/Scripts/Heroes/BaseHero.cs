@@ -56,6 +56,8 @@ namespace Heroes {
         protected Vector2 requestLocation;
 
         public Item requestItem => this._requestItem;
+        public bool requestsInteraction { protected set; get; }
+
         public float timeTilMad => this.requestTimer;
         public BaseHeroState state => this._state;
 
@@ -122,15 +124,11 @@ namespace Heroes {
             // }
         }
         // End of unity life cycle methods
-        public bool GiveItem( Item item ) {
-            if(
-                this.state != BaseHeroState.WaitingForRequest ||
-                requestItem != item
-            ) {
-                return false;
+        public void ResolveRequest() {
+            if(this.state != BaseHeroState.WaitingForRequest) {
+                return;
             }
             this.MoveState(BaseHeroState.Leaving);
-            return true;
         }
         public virtual void OnSpawn() {
             this.spriteRenderer.color = Color.white;

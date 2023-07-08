@@ -1,3 +1,4 @@
+using Items;
 using Projectiles;
 using RamenSea.Foundation.Extensions;
 using RamenSea.Foundation3D.Extensions;
@@ -17,6 +18,11 @@ namespace Heroes {
 
 
         private float attackTimer = 0f;
+
+        public override void SetUp(Item requestingItem, Vector2 spawnLocation, Vector2 requestLocation) {
+            base.SetUp(Item.None, spawnLocation, requestLocation);
+            this.requestsInteraction = true;
+        }
 
         protected override void MoveState(BaseHeroState newState) {
             base.MoveState(newState);

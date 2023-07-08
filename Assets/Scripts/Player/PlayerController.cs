@@ -83,23 +83,25 @@ namespace Player {
                         item_station_mask
                     );
 
-                    // NOTE(alicia): pick the collider that is
-                    // closest to the player
-                    Collider2D collider = colliders[0];
-                    float shortest_distance =
-                        (collider.transform.position - transform.position)
-                        .sqrMagnitude;
-                    for( int i = 1; i < num_colliders; ++i ) {
-                        float distance = 
-                        (colliders[i].transform.position - transform.position)
-                        .sqrMagnitude;
-                        if( distance < shortest_distance ) {
-                            shortest_distance = distance;
-                            collider = colliders[i];
+                    if( num_colliders != 0 ) { 
+                        // NOTE(alicia): pick the collider that is
+                        // closest to the player
+                        
+                        //Moved this into the array size check
+                        Collider2D collider = colliders[0];
+                        float shortest_distance =
+                            (collider.transform.position - transform.position)
+                            .sqrMagnitude;
+                        for( int i = 1; i < num_colliders; ++i ) {
+                            float distance = 
+                                (colliders[i].transform.position - transform.position)
+                                .sqrMagnitude;
+                            if( distance < shortest_distance ) {
+                                shortest_distance = distance;
+                                collider = colliders[i];
+                            }
                         }
-                    }
-
-                    if( num_colliders != 0 ) {
+                        
                         ItemStation station =
                             collider.gameObject.GetComponent<ItemStation>();
                         item = station.on_interact();
@@ -109,29 +111,33 @@ namespace Player {
                         heldItem.set_sprite( held_item_type );
                         heldItem.gameObject.SetActive( true );
                     }
-                } else {
-                    if (this.possibleSelectedHeroes.Count > 0) {
-                        BaseHero bestHeroToSelect = null;
-                        for (var i = 0; i < this.possibleSelectedHeroes.Count; i++) {
-                            var possibleSelectedHero = this.possibleSelectedHeroes[i];
-                            if (possibleSelectedHero.state != BaseHeroState.WaitingForRequest) {
-                                continue;
-                            }
+                }
+                
+                if (this.possibleSelectedHeroes.Count > 0) {
+                    BaseHero bestHeroToSelect = null;
+                    for (var i = 0; i < this.possibleSelectedHeroes.Count; i++) {
+                        var possibleSelectedHero = this.possibleSelectedHeroes[i];
+                        if (possibleSelectedHero.state != BaseHeroState.WaitingForRequest) {
+                            continue;
+                        }
 
-                            if (bestHeroToSelect == null) {
-                                bestHeroToSelect = possibleSelectedHero;
-                            } else if (possibleSelectedHero.timeTilMad < bestHeroToSelect.timeTilMad) {
+                        if (bestHeroToSelect == null) {
+                            bestHeroToSelect = possibleSelectedHero;
+                        } else if (possibleSelectedHero.timeTilMad < bestHeroToSelect.timeTilMad) {
+                            if (possibleSelectedHero.requestItem == this.held_item_type || possibleSelectedHero.requestsInteraction) {
                                 bestHeroToSelect = possibleSelectedHero;
                             }
                         }
+                    }
 
-                        if(
-                            bestHeroToSelect != null &&
-                            bestHeroToSelect.GiveItem( held_item_type )
-                        ) {
+                    if(bestHeroToSelect != null) {
+                        if (bestHeroToSelect.requestItem != Item.None) { // only clear out the held item if the hero is requesting an item
                             held_item_type = Item.None;
                             heldItem.gameObject.SetActive( false );
                         }
+                        // Checks if the requested item is the same earlier
+                        // That way it allows us to handle non item requests
+                        bestHeroToSelect.ResolveRequest();
                     }
                 }
             }

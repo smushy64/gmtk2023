@@ -3,6 +3,7 @@ using Heroes;
 using NaughtyAttributes;
 using Player;
 using Projectiles;
+using RamenSea.Foundation3D.Services.KeyStore;
 using UnityEngine;
 
 namespace Runner {
@@ -44,11 +45,13 @@ namespace Runner {
         public ProjectileRecycler projectileRecycler => this._projectileRecycler;
         [SerializeField] private HeroRecycler _heroRecycler;
         public HeroRecycler heroRecycler => this._heroRecycler;
+        public KeyStoreService keyStore { private get; set; }
 
         private void Awake() {
             this.state = new GameState() {
                 status = GameState.Status.SetUp
             };
+            this.keyStore = new KeyStoreService();
         }
         private void Start() {
             foreach (var mechanic in this.mechanics) {
