@@ -12,7 +12,7 @@ using UnityEngine.UIElements;
 
 namespace Heroes {
     public enum HeroType: byte {
-        None, Link, Karen, Witcher, Merlin
+        None, Link, Karen, Gremlin, Merlin
     }
 
     public static class HeroTypeExtensions {
@@ -45,6 +45,7 @@ namespace Heroes {
         [SerializeField] protected SpriteRenderer spriteRenderer;
         [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
         [SerializeField] protected Animator animator;
+        [SerializeField] protected Rigidbody2D rigidbody; //todo
 
 
         protected float requestTimer = 0f;
