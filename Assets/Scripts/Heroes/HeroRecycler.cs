@@ -43,13 +43,6 @@ namespace Heroes {
             return h;
         }
 
-        [Button("Test Spawn", EButtonEnableMode.Playmode)]
-        public void TestSpawn() {
-            var hero = this.Spawn(HeroType.Merlin, (byte)MerlinVariant.BlueRobe);
-            
-            hero.SetUp(Item.Potion, new Vector2(0,0), new Vector2(2,2));
-        }
-
         public void Recycle(BaseHero hero) {
             hero.gameObject.SetActive(false);
             

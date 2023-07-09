@@ -13,8 +13,15 @@ namespace Runner {
             Running, // Game is running
             End, // Game has completed, there will probably need to be 
         }
+        public enum LevelResult : byte {
+            None,
+            Won,
+            Died,
+        }
 
         public Status status;
+        public LevelResult levelResult;
+
         public void set_status( Status status ) {
             this.status = status;
         }
@@ -45,6 +52,8 @@ namespace Runner {
         public ProjectileRecycler projectileRecycler => this._projectileRecycler;
         [SerializeField] private HeroRecycler _heroRecycler;
         public HeroRecycler heroRecycler => this._heroRecycler;
+        [SerializeField] private LevelController _levelController;
+        public LevelController levelController => this._levelController;
         public KeyStoreService keyStore { private get; set; }
 
         private void Awake() {
@@ -78,17 +87,26 @@ namespace Runner {
                 mechanic.OnStateChange(this.state);
             }
         }
-
         public void PlayerDied() {
             var s = this.state;
             s.status = GameState.Status.End; // reverting this, since accessing a synthetic property in c# isn't which as intuitive as you'd think
+            s.levelResult = GameState.LevelResult.Died;
             this.state = s;
             
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);
             }
         }
-        
+        public void StoreDidClose() { //woo
+            var s = this.state;
+            s.status = GameState.Status.End; // reverting this, since accessing a synthetic property in c# isn't which as intuitive as you'd think
+            s.levelResult = GameState.LevelResult.Won;
+            this.state = s;
+            
+            foreach (var mechanic in this.mechanics) {
+                mechanic.OnStateChange(this.state);
+            }
+        }
         
 #if UNITY_EDITOR
         private void Reset() {
@@ -103,6 +121,7 @@ namespace Runner {
             this._player = FindObjectOfType<PlayerController>();
             this._projectileRecycler = FindObjectOfType<ProjectileRecycler>();
             this._heroRecycler = FindObjectOfType<HeroRecycler>();
+            this._levelController = FindObjectOfType<LevelController>();
             
             this._projectileRecycler.UpdatePrefabs();
             this._heroRecycler.UpdatePrefabs();

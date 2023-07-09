@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389112813098745878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -115,7 +115,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497023208402850465}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.17, y: -0.114, z: 0}
+  m_LocalPosition: {x: -0.6, y: 0.37, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -165,8 +165,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1612144449085906940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.69, z: 0}
+  m_LocalScale: {x: 2.39, y: 2.39, z: 2.39}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7458048568991318480}
@@ -296,17 +296,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progressBar: {fileID: 8687662814371775865}
-  walkingInSpeed: 1
-  leavingSpeed: 1
-  generalRequestTime: 5
+  walkingInSpeed: 3
+  leavingSpeed: 1.5
+  generalRequestTime: 10
   spriteRenderer: {fileID: 8780210959543164648}
   playerCollisionDetection: {fileID: 6239184978395919692}
   animator: {fileID: 2120170084945289016}
   rigidbody: {fileID: 1656457147449675210}
   variant: 0
-  randomWalkingSpeed: 0.5
-  walkingSpeedAtPlayer: 0.3
-  walkingSpeedAtPlayerFast: 1.4
+  randomWalkingSpeed: 3
+  walkingSpeedAtPlayer: 0.9
+  walkingSpeedAtPlayerFast: 2
   attackFrom: {fileID: 2057121710655561579}
 --- !u!50 &1656457147449675210
 Rigidbody2D:
@@ -360,7 +360,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6792167821323744192}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.036, y: -0.196, z: 0}
+  m_LocalPosition: {x: -0.036, y: 0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -410,7 +410,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.39, y: 0.31}
+  m_Size: {x: 0.7, y: 0.55}
   m_EdgeRadius: 0
 --- !u!1001 &9123132399320198799
 PrefabInstance:
@@ -430,15 +430,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7826273629279795728, guid: afad9c029840a4ecdba2ae6fade7298b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.98
+      value: 0.89
       objectReference: {fileID: 0}
     - target: {fileID: 7826273629279795728, guid: afad9c029840a4ecdba2ae6fade7298b, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.98
+      value: 0.89
       objectReference: {fileID: 0}
     - target: {fileID: 7826273629279795728, guid: afad9c029840a4ecdba2ae6fade7298b, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.98
+      value: 0.89
       objectReference: {fileID: 0}
     - target: {fileID: 7826273629279795728, guid: afad9c029840a4ecdba2ae6fade7298b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -446,7 +446,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7826273629279795728, guid: afad9c029840a4ecdba2ae6fade7298b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.258
+      value: 1.21
       objectReference: {fileID: 0}
     - target: {fileID: 7826273629279795728, guid: afad9c029840a4ecdba2ae6fade7298b, type: 3}
       propertyPath: m_LocalPosition.z
