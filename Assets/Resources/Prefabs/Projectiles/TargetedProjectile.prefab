@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 5275974714724007080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.18, y: 0.18, z: 0.18}
+  m_LocalScale: {x: 0.33, y: 0.33, z: 0.33}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1250850558615141658}
@@ -214,9 +214,10 @@ MonoBehaviour:
   timeToRecycle: 0.1
   damage: 1
   playerCollisionDetection: {fileID: 3588205246973042724}
+  spriteRenderer: {fileID: 4240835046873141985}
   runner: {fileID: 0}
-  maxSpeed: 4
-  timeTilMaxSpeed: 1
+  maxSpeed: 6
+  timeTilMaxSpeed: 1.5
   speedCurve:
     serializedVersion: 2
     m_Curve:

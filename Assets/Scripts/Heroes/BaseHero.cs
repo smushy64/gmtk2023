@@ -45,7 +45,7 @@ namespace Heroes {
         [SerializeField] protected SpriteRenderer spriteRenderer;
         [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
         [SerializeField] protected Animator animator;
-        [SerializeField] protected Rigidbody2D rigidbody; //todo
+        [SerializeField] protected new Rigidbody2D rigidbody; //todo
 
 
         protected float requestTimer = 0f;
@@ -57,6 +57,7 @@ namespace Heroes {
 
         public Item requestItem => this._requestItem;
         public bool requestsInteraction { protected set; get; }
+        public int gameId { private set; get; }
 
         public float timeTilMad => this.requestTimer;
         public BaseHeroState state => this._state;
@@ -133,7 +134,8 @@ namespace Heroes {
         public virtual void OnSpawn() {
             this.spriteRenderer.color = Color.white;
         }
-        public virtual void SetUp(Item requestingItem, Vector2 spawnLocation, Vector2 requestLocation) {
+        public virtual void SetUp(int id, Item requestingItem, Vector2 spawnLocation, Vector2 requestLocation) {
+            this.gameId = id;
             this._requestItem = requestingItem;
             this.spawnLocation = spawnLocation;
             this.requestLocation = requestLocation;
@@ -175,10 +177,14 @@ namespace Heroes {
                         this.rigidbody.bodyType = RigidbodyType2D.Dynamic;
                     }
                     this.spriteRenderer.DOColor(new Color(0.95f, 0.29f, 0.31f), 0.4f);
+                    
+                    this.runner.levelController.HeroStatusChange(this.gameId, true); // ooof this is bad to do lol
                     break;
                 }
                 case BaseHeroState.Leaving: {
                     this.spriteRenderer.DOColor(new Color(0.2f, 0.94f, 0.95f), 0.4f);
+                    
+                    this.runner.levelController.HeroStatusChange(this.gameId, false); // ooof this is bad to do lol
                     break;
                 }
                 case BaseHeroState.Left: {
