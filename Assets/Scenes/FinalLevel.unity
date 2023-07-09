@@ -518,7 +518,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.07
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -606,8 +606,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trackingTransform: {fileID: 263700613}
-  maxDistanceToMove: {x: 10, y: 7}
-  center: {x: 0, y: 0, z: -10}
+  minX: -12.82
+  maxX: 12.9
+  minY: -7.22
+  maxY: 7.1
 --- !u!1001 &527665672
 PrefabInstance:
   m_ObjectHideFlags: 0
