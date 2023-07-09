@@ -9,6 +9,7 @@ namespace Items {
         SpriteRenderer sprite_renderer;
 
         void Awake() {
+            sprite_renderer = GetComponent<SpriteRenderer>();
             sprite_renderer.sprite = sprites[0];
         }
 
