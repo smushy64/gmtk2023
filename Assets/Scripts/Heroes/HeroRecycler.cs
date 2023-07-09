@@ -46,13 +46,6 @@ namespace Heroes {
         public void Recycle(BaseHero hero) {
             hero.gameObject.SetActive(false);
             return; //turning recycling of heroes off for rn
-            var index = hero.heroType.GetPrefabHashCode(hero.heroVariantValue);
-            var recycled = this.recycledHeroes.GetNullable(index);
-            if (recycled == null) {
-                recycled = new();
-                this.recycledHeroes[index] = recycled;
-            }
-            recycled.Push(hero);
         }
 #if UNITY_EDITOR
         [Button("Update prefabs", EButtonEnableMode.Editor)]

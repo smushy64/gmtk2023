@@ -23,7 +23,6 @@ public class ItemStation : GameMechanic {
 
     Animator sprite_animator;
 
-    bool sent_message = false;
     public Action on_standby;
     public Action on_preparing;
     public Action on_ready;

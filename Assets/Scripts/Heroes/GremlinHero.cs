@@ -17,6 +17,7 @@ namespace Heroes {
             WalkTowardsTargetFast,
             WalkRandomly,
             Barf,
+            Leave
         }
         public override HeroType heroType => HeroType.Gremlin;
         public override byte heroVariantValue => (byte) this.variant;
@@ -120,6 +121,9 @@ namespace Heroes {
                     this.SetMovementAnimation(movementDelta);
                     break;
                 }
+                case MadBehavior.Leave:
+                    _state = BaseHeroState.Leaving;
+                    break;
             }
 
             this.firstTimeWithBehavior = false;

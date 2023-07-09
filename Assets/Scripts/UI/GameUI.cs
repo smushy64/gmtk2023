@@ -8,6 +8,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Runner;
+using TMPro;
 
 public class GameUI : GameMechanic {
 
@@ -19,6 +20,13 @@ public class GameUI : GameMechanic {
     GameObject gameOverMenu;
     [SerializeField]
     Slider health_bar;
+
+    [SerializeField]
+    GameObject timeLeftPanel;
+    [SerializeField]
+    TMP_Text textTimeLeft;
+    [SerializeField]
+    TMP_Text textTimeLeftBackdrop;
 
     [SerializeField]
     GameObject sword_ready_icon;
@@ -92,13 +100,64 @@ public class GameUI : GameMechanic {
         runner.player.on_health_update += update_health;
     }
 
+    void Update() {
+        float time_til_closing = runner.levelController.timeTilClosing;
+        if( time_til_closing != 0f ) {
+            if( !timeLeftPanel.activeSelf ) {
+                timeLeftPanel.SetActive( true );
+            }
+            textTimeLeft.SetText( time_til_closing.ToString("N1") );
+            textTimeLeftBackdrop.SetText( textTimeLeft.text );
+        } else {
+            if( timeLeftPanel.activeSelf ) {
+                timeLeftPanel.SetActive( false );
+            }
+        }
+    }
+
     void OnEnable() {
         if( runner != null && runner.player != null ) {
             runner.player.on_health_update += update_health;
         }
+        ItemStation[] stations = FindObjectsOfType<ItemStation>();
+        for( int i = 0; i < stations.Length; ++i ) {
+            ItemStation current = stations[i];
+            switch( current.item_type ) {
+                case Items.Item.Sword:
+                    current.on_ready   += enable_sword_icon;
+                    current.on_not_ready += disable_sword_icon;
+                    break;
+                case Items.Item.Potion:
+                    current.on_ready   += enable_potion_icon;
+                    current.on_not_ready += disable_potion_icon;
+                    break;
+                case Items.Item.SpellBook:
+                    current.on_ready   += enable_book_icon;
+                    current.on_not_ready += disable_book_icon;
+                    break;
+            }
+        }
     }
     void OnDisable() {
         runner.player.on_health_update -= update_health;
+        ItemStation[] stations = FindObjectsOfType<ItemStation>();
+        for( int i = 0; i < stations.Length; ++i ) {
+            ItemStation current = stations[i];
+            switch( current.item_type ) {
+                case Items.Item.Sword:
+                    current.on_ready   -= enable_sword_icon;
+                    current.on_not_ready -= disable_sword_icon;
+                    break;
+                case Items.Item.Potion:
+                    current.on_ready   -= enable_potion_icon;
+                    current.on_not_ready -= disable_potion_icon;
+                    break;
+                case Items.Item.SpellBook:
+                    current.on_ready   -= enable_book_icon;
+                    current.on_not_ready -= disable_book_icon;
+                    break;
+            }
+        }
     }
 
     void update_health( int health, int max_health ) {

@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemToPrepare: 2
-  preparationTime: 1
-  failureTime: 1.5
+  preparationTime: 1.25
+  failureTime: 2.5
   sprite: {fileID: 6281557950754332641}
 --- !u!58 &5569392848869063075
 CircleCollider2D:
@@ -158,7 +158,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1686726621
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 230cda2825525034cadf3f519192a49b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

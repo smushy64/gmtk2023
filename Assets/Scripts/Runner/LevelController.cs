@@ -23,6 +23,7 @@ namespace Runner {
 
         public Action onHeroMadHappyCountDidChange;
         public Action onClosingTimeStarted;
+
         public int madHeroesCount => this.heroesMad.Count;
         public int happyHeroesCount => this.heroesHappy.Count;
         public int totalHeroCount => this.levelData.heroes.Length;

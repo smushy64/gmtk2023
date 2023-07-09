@@ -81,6 +81,7 @@ namespace Heroes {
                 return;
             }
             this.animator.SetBool(ANIMATOR_ATTACK, false);
+            _state = BaseHeroState.Leaving;
         }
     }
 }

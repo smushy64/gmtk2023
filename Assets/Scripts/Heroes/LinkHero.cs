@@ -95,6 +95,7 @@ namespace Heroes {
                             if (this.chargetimer <= 0f) {
                                 this.isCharging = false;
                                 this.animator.SetBool(ANIMATOR_ATTACK, false);
+                                _state = BaseHeroState.Leaving;
                             }
 
                         }
