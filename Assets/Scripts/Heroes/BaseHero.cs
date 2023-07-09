@@ -158,7 +158,6 @@ namespace Heroes {
         protected virtual void MoveState(BaseHeroState newState) {
             var oldState = this.state;
             this._state = newState;
-            Debug.Log($"{this.heroType} - is moving to {newState} from {oldState}"); //todo remove
 
             this.spriteRenderer.DOKill();
             switch (oldState) { //old state
