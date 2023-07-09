@@ -123,6 +123,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &154649088 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 515198451906266165, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+  m_PrefabInstance: {fileID: 6947949360294280502}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8246a7f1f3f4de99f37feba2d7a76c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &154649090 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8352917880371379813, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+  m_PrefabInstance: {fileID: 6947949360294280502}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbcef41139f9470b98c32171b7ef27bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &248010687
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,10 +593,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4429984033272263071, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -13.931
+      objectReference: {fileID: 0}
     - target: {fileID: 4794161476663451249, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5350904154498702373, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 558d0ee60800a5c45a67e3ef91f6a428, type: 3}
     - target: {fileID: 5550811109160325813, guid: 322e7accc96c84673bf911bf47844d3a, type: 3}
       propertyPath: m_Name
       value: PlayerController
@@ -1006,6 +1036,17 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &1228379320 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8768228192410527560, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+  m_PrefabInstance: {fileID: 6947949360294280502}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3305008ad7441779b702e86ed8fb886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1669337903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1639,6 +1680,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 534397297}
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: mechanics.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: mechanics.Array.data[0]
+      value: 
+      objectReference: {fileID: 534397297}
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: mechanics.Array.data[1]
+      value: 
+      objectReference: {fileID: 154649088}
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: mechanics.Array.data[2]
+      value: 
+      objectReference: {fileID: 1669337904}
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: mechanics.Array.data[3]
+      value: 
+      objectReference: {fileID: 1982111800}
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: mechanics.Array.data[4]
+      value: 
+      objectReference: {fileID: 1066476630}
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: mechanics.Array.data[5]
+      value: 
+      objectReference: {fileID: 2023528074}
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: mechanics.Array.data[6]
+      value: 
+      objectReference: {fileID: 1228379320}
+    - target: {fileID: 636062585942853019, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: mechanics.Array.data[7]
+      value: 
+      objectReference: {fileID: 154649090}
     - target: {fileID: 1301256902281217849, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_Name
       value: GameRunner
