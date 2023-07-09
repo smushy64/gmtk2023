@@ -77,12 +77,16 @@ namespace Player {
 
         private void Update() {
 
+            if( mapped_input.Character.Pause.WasPressedThisFrame() ) {
+                runner.player_pause();
+                return;
+            }
+
             if (this.runner.state.status != GameState.Status.Running) {
                 return;
             }
 
             poll_input();
-
             if( player_input.is_interact_pressed ) {
                 if( held_item_type == Item.None ) {
                     Item item = Item.None;

@@ -52,8 +52,35 @@ public class MainMenu : MonoBehaviour {
 #endif
     }
 
-    public void Play() {
+    // NOTE(alicia): added a tiny delay so
+    // you can see the button being pressed
+    const float BUTTON_DELAY = 0.025f;
+    IEnumerator iload_game;
+    IEnumerator load_game() {
+        float timer = 0f;
+        while( timer < BUTTON_DELAY ) {
+            timer += Time.unscaledTime;
+            yield return null;
+        }
         SceneManager.LoadScene( startGameSceneIndex );
+    }
+
+    IEnumerator iexit_game;
+    IEnumerator exit_game() {
+        float timer = 0f;
+        while( timer < BUTTON_DELAY ) {
+            timer += Time.unscaledTime;
+            yield return null;
+        }
+        Application.Quit( 0 );
+    }
+
+    public void Play() {
+        if( iload_game != null ) {
+            this.StopCoroutine( iload_game );
+        }
+        iload_game = load_game();
+        this.StartCoroutine( iload_game );
     }
 
     public static float FULL_VOLUME = 0.0f;
@@ -64,7 +91,11 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void Exit() {
-        Application.Quit( 0 );
+        if( iexit_game != null ) {
+            this.StopCoroutine( iexit_game );
+        }
+        iexit_game = exit_game();
+        this.StartCoroutine( iexit_game );
     }
 
 }

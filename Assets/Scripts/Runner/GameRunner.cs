@@ -11,6 +11,7 @@ namespace Runner {
         public enum Status : byte {
             SetUp, // Could be main menu? Depends on where we end up putting this
             Running, // Game is running
+            Paused, // game is paused, time.deltaTime is 0
             End, // Game has completed, there will probably need to be 
         }
         public enum LevelResult : byte {
@@ -20,10 +21,12 @@ namespace Runner {
         }
 
         public Status status;
+        public Status previous_status;
         public LevelResult levelResult;
 
-        public void set_status( Status status ) {
-            this.status = status;
+        public void set_status( Status new_status ) {
+            previous_status = status;
+            status = new_status;
         }
     }
 
@@ -56,6 +59,21 @@ namespace Runner {
         public LevelController levelController => this._levelController;
         public KeyStoreService keyStore { private get; set; }
 
+        // NOTE(alicia): i know, bad roundtripping but
+        // hey we got a game to finish
+        public GameUI game_ui = null;
+
+        public void set_paused( bool paused ) {
+            state.set_status(
+                paused ? GameState.Status.Paused :
+                state.previous_status
+            );
+            Time.timeScale = paused ? 0f : 1f;
+        }
+        public void player_pause() {
+            game_ui.on_pause();
+        }
+
         private void Awake() {
             this.state = new GameState() {
                 status = GameState.Status.SetUp
@@ -69,8 +87,6 @@ namespace Runner {
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);
             }
-        }
-        private void Update() {
         }
 
         [Button("Start game", EButtonEnableMode.Playmode)]

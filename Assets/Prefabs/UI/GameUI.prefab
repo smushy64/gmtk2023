@@ -34,10 +34,10 @@ RectTransform:
   m_Father: {fileID: 6941543046049692633}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 267.56}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 690, y: -133.78}
+  m_SizeDelta: {x: 460, y: 267.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6109857720864110724
 CanvasRenderer:
@@ -286,7 +286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7102793577801538151
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1236,7 +1236,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b13a388caf6275642a3ff20f5f67e40c, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -1279,10 +1279,10 @@ RectTransform:
   m_Father: {fileID: 6941543046049692633}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 267.56}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 230, y: -133.78}
+  m_SizeDelta: {x: 460, y: 267.56}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6696222931720261776
 CanvasRenderer:

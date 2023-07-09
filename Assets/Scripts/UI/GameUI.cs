@@ -6,8 +6,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Runner;
 
-public class GameUI : MonoBehaviour {
+public class GameUI : GameMechanic {
 
     [SerializeField]
     GameObject pauseMenu;
@@ -22,6 +23,9 @@ public class GameUI : MonoBehaviour {
         mixer = Resources.Load<AudioMixer>( "MainMixer" );
         pause_menu_animator = pauseMenu.GetComponent<Animator>();
     }
+    void Start() {
+        runner.game_ui = this;
+    }
 
     IEnumerator ipopdown;
     IEnumerator popdown() {
@@ -33,14 +37,13 @@ public class GameUI : MonoBehaviour {
         pauseMenu.SetActive( false );
     }
 
-    public void on_pause() {
-        // TODO(alicia): actually pause the game too,
-        // or send a message to game runner?
-        
-        if( !pauseMenu.activeSelf ) {
+    void pause( bool pause ) {
+        if( pause ) {
+            runner.set_paused( true );
             pauseMenu.SetActive( true );
             pause_menu_animator.Play( "Popup" );
         } else {
+            runner.set_paused( false );
             pause_menu_animator.Play( "Popdown" );
             if( ipopdown != null ) {
                 this.StopCoroutine( ipopdown );
@@ -49,8 +52,12 @@ public class GameUI : MonoBehaviour {
             this.StartCoroutine( ipopdown );
         }
     }
+    public void on_pause() {
+        pause( !pauseMenu.activeSelf );
+    }
 
     public void on_press_home() {
+        pause( false );
         SceneManager.LoadScene( 0 );
     }
 
@@ -64,6 +71,7 @@ public class GameUI : MonoBehaviour {
     }
 
     public void on_reload() {
+        pause( false );
         SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex );
     }
 }
