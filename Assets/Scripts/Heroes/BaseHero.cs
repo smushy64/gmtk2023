@@ -48,6 +48,8 @@ namespace Heroes {
         [SerializeField] protected Animator animator;
         [SerializeField] protected ThoughtBubble thoughtBubble;
         [SerializeField] protected VariationAudioSource entranceSound;
+        [SerializeField] private VariationAudioSource gettingMadSound;
+
         protected Rigidbody2D r2d; //todo
 
 
@@ -180,6 +182,7 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.Mad: {
+                    this.gettingMadSound.Play();
                     this.thoughtBubble.thoughtBubbleAnimation = ThoughtBubbleAnimation.Mad;
                     if (this.r2d != null) {
                         this.r2d.bodyType = RigidbodyType2D.Dynamic;
