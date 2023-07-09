@@ -203,12 +203,21 @@ namespace Heroes {
             this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
         }
         protected void SetMovementAnimation(Vector2 move) {
-            if (Mathf.Approximately(move.x, 0)) {
+            var isHorizontalMovement = Mathf.Approximately(move.x, 0) == false;
+            var isVerticalMovement = Mathf.Approximately(move.y, 0) == false;
+            if (isHorizontalMovement && isVerticalMovement) {
+                if (move.x.Abs() > move.y.Abs() * 0.4f) {
+                    isVerticalMovement = false;
+                } else {
+                    isHorizontalMovement = false;
+                }
+            }
+            if (isHorizontalMovement == false) {
                 this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
             } else {
                 this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, move.x >= 0 ? 1 : -1);
             }
-            if (Mathf.Approximately(move.y, 0)) {
+            if (isVerticalMovement == false) {
                 this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
             } else {
                 this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, move.y >= 0 ? 1 : -1);
