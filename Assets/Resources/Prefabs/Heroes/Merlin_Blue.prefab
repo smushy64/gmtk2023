@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389112813098745878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.31, z: 0}
+  m_LocalPosition: {x: -0.14, y: 1.31, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -405,6 +405,7 @@ MonoBehaviour:
   thoughtBubble: {fileID: 4911536197546778240}
   entranceSound: {fileID: 8061049937646892708}
   gettingMadSound: {fileID: 84999508638582339}
+  collider: {fileID: 1863398860567443252}
   variant: 0
   waitToSpawnProjectile1: 0.4
   waitToSpawnProjectile2: 0.2

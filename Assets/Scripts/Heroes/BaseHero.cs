@@ -49,6 +49,7 @@ namespace Heroes {
         [SerializeField] protected ThoughtBubble thoughtBubble;
         [SerializeField] protected VariationAudioSource entranceSound;
         [SerializeField] private VariationAudioSource gettingMadSound;
+        [SerializeField] private Collider2D collider;
 
         protected Rigidbody2D r2d; //todo
 
@@ -75,6 +76,7 @@ namespace Heroes {
             this._state = BaseHeroState.NotSpawned;
             this.progressBar.gameObject.SetActive(false);
             this.playerCollisionDetection.listener = this;
+            this.collider.enabled = false;
         }
         protected virtual void Start() { }
         protected virtual void OnEnable() { }
@@ -182,6 +184,7 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.Mad: {
+                    this.collider.enabled = true;
                     this.gettingMadSound.Play();
                     this.thoughtBubble.thoughtBubbleAnimation = ThoughtBubbleAnimation.Mad;
                     if (this.r2d != null) {
