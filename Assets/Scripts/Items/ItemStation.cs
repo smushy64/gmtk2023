@@ -15,6 +15,8 @@ public class ItemStation : GameMechanic {
     float preparationTime = 1f;
     [SerializeField, Min(0.1f)]
     float failureTime = 1.5f;
+    [SerializeField]
+    GameObject floatingItem;
 
     public Item item_type => itemToPrepare;
 
@@ -45,16 +47,19 @@ public class ItemStation : GameMechanic {
                 sprite.SetActive( false );
                 on_standby?.Invoke();
                 on_not_ready?.Invoke();
+                floatingItem.SetActive( false );
                 break;
             case StationStatus.IS_PREPARING:
                 on_preparing?.Invoke();
                 on_not_ready?.Invoke();
                 sprite.SetActive( true );
                 sprite_animator?.Play( "Preparing" );
+                floatingItem.SetActive( false );
                 break;
             case StationStatus.IS_READY:
                 sprite.SetActive( false );
                 on_ready?.Invoke();
+                floatingItem.SetActive( true );
                 break;
         }
     }
