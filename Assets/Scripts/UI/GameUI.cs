@@ -6,12 +6,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Runner;
 
 public class GameUI : GameMechanic {
 
     [SerializeField]
     GameObject pauseMenu;
+    [SerializeField]
+    Slider health_bar;
 
     const float POPUP_ANIMATION_LENGTH = 0.1f;
     Animator pause_menu_animator;
@@ -25,6 +28,22 @@ public class GameUI : GameMechanic {
     }
     void Start() {
         runner.game_ui = this;
+        int max_health = runner.player.max_health;
+        update_health( max_health, max_health );
+        runner.player.on_health_update += update_health;
+    }
+
+    void OnEnable() {
+        if( runner != null && runner.player != null ) {
+            runner.player.on_health_update += update_health;
+        }
+    }
+    void OnDisable() {
+        runner.player.on_health_update -= update_health;
+    }
+
+    void update_health( int health, int max_health ) {
+        health_bar.value = (float)health / (float)max_health;
     }
 
     IEnumerator ipopdown;

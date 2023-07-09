@@ -28,6 +28,9 @@ namespace Runner {
             previous_status = status;
             status = new_status;
         }
+        public void set_level_result( LevelResult result ) {
+            levelResult = result;
+        }
     }
 
     // a simple base class to make referencing the shared game state easier
@@ -47,7 +50,6 @@ namespace Runner {
 
         [SerializeField] private GameMechanic[] mechanics;
         
-        
         // List of specific game mechanics so we can reference them if we want
         [SerializeField] private PlayerController _player;
         public PlayerController player => this._player;
@@ -58,6 +60,7 @@ namespace Runner {
         [SerializeField] private LevelController _levelController;
         public LevelController levelController => this._levelController;
         public KeyStoreService keyStore { private get; set; }
+
 
         // NOTE(alicia): i know, bad roundtripping but
         // hey we got a game to finish
@@ -75,9 +78,7 @@ namespace Runner {
         }
 
         private void Awake() {
-            this.state = new GameState() {
-                status = GameState.Status.SetUp
-            };
+            this.state = new GameState() { status = GameState.Status.Running };
             this.keyStore = new KeyStoreService();
         }
         private void Start() {
@@ -95,29 +96,23 @@ namespace Runner {
                 Debug.LogError("The game has already started");
                 return;
             }
-            var s = this.state;
-            s.status = GameState.Status.Running;
-            this.state = s;
+            state.set_status( GameState.Status.Running );
             
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);
             }
         }
         public void PlayerDied() {
-            var s = this.state;
-            s.status = GameState.Status.End; // reverting this, since accessing a synthetic property in c# isn't which as intuitive as you'd think
-            s.levelResult = GameState.LevelResult.Died;
-            this.state = s;
+            state.set_status( GameState.Status.End );
+            state.set_level_result( GameState.LevelResult.Died );
             
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);
             }
         }
         public void StoreDidClose() { //woo
-            var s = this.state;
-            s.status = GameState.Status.End; // reverting this, since accessing a synthetic property in c# isn't which as intuitive as you'd think
-            s.levelResult = GameState.LevelResult.Won;
-            this.state = s;
+            state.set_status( GameState.Status.End );
+            state.set_level_result( GameState.LevelResult.Won );
             
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);

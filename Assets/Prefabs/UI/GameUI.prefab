@@ -1573,6 +1573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 5501757846806592686}
+  health_bar: {fileID: 129496127705408488}
 --- !u!1 &7088568706330186455
 GameObject:
   m_ObjectHideFlags: 0

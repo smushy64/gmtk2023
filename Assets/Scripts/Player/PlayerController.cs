@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Heroes;
@@ -51,6 +53,19 @@ namespace Player {
         [SerializeField]
         Items.ItemObject heldItem;
 
+        [SerializeField, Min(1)]
+        int maxHealth = 5;
+
+        public int health { private set; get; }
+        public int max_health => maxHealth;
+
+        public Action<int, int> on_health_update;
+
+        // NOTE(alicia): i-frames
+        public bool is_invincible { private get; set; } = false;
+        [SerializeField, Min(0.0f)]
+        float iFrameTime = 1.0f;
+
         // NOTE(alicia): moved input handling into playercontroller
         public Player.Input player_input { private set; get; }
         MappedInput mapped_input;
@@ -73,6 +88,10 @@ namespace Player {
 
             heldItem.gameObject.SetActive(false);
             this.possibleSelectedHeroes = new();
+        }
+
+        void Start() {
+            health = max_health;
         }
 
         private void Update() {
@@ -220,9 +239,48 @@ namespace Player {
             this.possibleSelectedHeroes.Remove(hero);
 
         }
-        public void TakeDamage(int damage) { // we could add source
-            this.runner.PlayerDied();
-            this.spriteRenderer.DOColor(Color.red, 0.4f);
+
+        IEnumerator iinvincibility_frames;
+        IEnumerator invincibility_frames() {
+            float timer = 0f;
+            float blink_timer = 0f;
+            float blink_time = iFrameTime / 10.0f;
+            while( timer < iFrameTime ) {
+                timer += Time.deltaTime;
+                blink_timer += Time.deltaTime;
+                if( blink_timer >= blink_time ) {
+                    spriteRenderer.gameObject.SetActive( !spriteRenderer.gameObject.activeSelf );
+                    blink_timer = 0f;
+                }
+                yield return null;
+            }
+            spriteRenderer.gameObject.SetActive( true );
+            is_invincible = false;
+        }
+
+        public void TakeDamage(int damage) { 
+            if( is_invincible ) {
+                return;
+            }
+            Debug.Log( "Taking Damage: " + damage );
+            health -= damage;
+            is_invincible = true;
+
+            if( iinvincibility_frames != null ) {
+                this.StopCoroutine( iinvincibility_frames );
+            }
+
+            iinvincibility_frames = invincibility_frames();
+            this.StartCoroutine( iinvincibility_frames );
+
+            if( on_health_update != null ) {
+                on_health_update.Invoke( health, maxHealth );
+            }
+            if( health <= 0 ) {
+                this.runner.PlayerDied();
+                return;
+            }
+
         }
 
         private void OnDestroy() {
