@@ -102,7 +102,7 @@ namespace Heroes {
                 case BaseHeroState.WaitingForRequest: {
                     
                     this.requestTimer -= Time.deltaTime;
-                    this.progressBar.SetProgress((this.generalRequestTime - this.requestTimer) / this.generalRequestTime);
+                    // this.progressBar.SetProgress((this.generalRequestTime - this.requestTimer) / this.generalRequestTime);
                     if (this.requestTimer <= 0f) {
                         this.MoveState(BaseHeroState.Mad);
                     }
@@ -175,8 +175,9 @@ namespace Heroes {
                 }
                 case BaseHeroState.WaitingForRequest: {
                     this.entranceSound.Play();
-                    this.progressBar.gameObject.SetActive(true);
-                    this.progressBar.SetProgress(0f);
+                    this.thoughtBubble.SetAnimationWithTime(this.requestItem, this.generalRequestTime);
+                    // this.progressBar.gameObject.SetActive(true);
+                    // this.progressBar.SetProgress(0f);
                     this.requestTimer = this.generalRequestTime; // todo actually have this set a usable time. JUST A TEST VALUE
                     this.SetMovementAnimation(Vector2.zero);
                     break;

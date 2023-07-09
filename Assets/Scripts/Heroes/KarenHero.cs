@@ -24,11 +24,6 @@ namespace Heroes {
 
         private float attackTimer = 0f;
 
-        public override void SetUp(int id, Item requestingItem, Vector2 spawnLocation, Vector2 requestLocation) {
-            base.SetUp(id, Item.None, spawnLocation, requestLocation);
-            this.requestsInteraction = true;
-        }
-
         protected override void MoveState(BaseHeroState newState) {
             base.MoveState(newState);
 
