@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FloatingItem : MonoBehaviour {
@@ -9,7 +7,7 @@ public class FloatingItem : MonoBehaviour {
     }
     void Update() {
         float x = transform.position.x;
-        float y = start_y + Mathf.Sin( Time.time );
+        float y = start_y + (Mathf.Sin( Time.time * 1.25f ) * 0.4f);
         transform.position = new Vector2( x, y );
     }
 }

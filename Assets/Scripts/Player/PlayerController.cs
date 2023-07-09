@@ -60,6 +60,8 @@ namespace Player {
         public int max_health => maxHealth;
 
         public Action<int, int> on_health_update;
+        public Action<Item> on_hold_item;
+        public Action on_stop_hold_item;
 
         bool last_is_moving = false;
         bool is_moving      = false;
@@ -155,6 +157,7 @@ namespace Player {
                         held_item_type = item;
                         heldItem.gameObject.SetActive( true );
                         heldItem.set_sprite( held_item_type );
+                        on_hold_item?.Invoke( held_item_type );
                     }
                 }
                 
@@ -177,6 +180,7 @@ namespace Player {
                         if (bestHeroToSelect.requestItem != Item.None) { // only clear out the held item if the hero is requesting an item
                             held_item_type = Item.None;
                             heldItem.gameObject.SetActive( false );
+                            on_stop_hold_item?.Invoke();
                         }
                         // Checks if the requested item is the same earlier
                         // That way it allows us to handle non item requests
@@ -188,6 +192,7 @@ namespace Player {
             if( player_input.is_discard_pressed ) {
                 held_item_type = Item.None;
                 heldItem.gameObject.SetActive( false );
+                on_stop_hold_item?.Invoke();
             }
 
             // NOTE(alicia): mmm performance

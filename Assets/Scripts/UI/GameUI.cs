@@ -39,6 +39,11 @@ public class GameUI : GameMechanic {
     [SerializeField]
     TMP_Text angryCountLose, angryCountWin;
 
+    [SerializeField]
+    Image heldItem;
+    [SerializeField]
+    Sprite[] items = new Sprite[(int)Items.Item.MAX];
+
     const float POPUP_ANIMATION_LENGTH = 0.1f;
     Animator pause_menu_animator;
 
@@ -97,12 +102,23 @@ public class GameUI : GameMechanic {
         level_menu_animator = levelCompleteMenu.GetComponent<Animator>();
         game_over_animator  = gameOverMenu.GetComponent<Animator>();
     }
+
+    void on_hold_item( Items.Item item ) {
+        heldItem.gameObject.SetActive( true );
+        heldItem.sprite = items[(int)item];
+    }
+    void on_stop_hold_item() {
+        heldItem.gameObject.SetActive( false );
+    }
+
     void Start() {
         runner.game_ui = this;
         int max_health = runner.player.max_health;
         update_health( max_health, max_health );
         runner.player.on_health_update += update_health;
 
+        runner.player.on_hold_item += on_hold_item;
+        runner.player.on_stop_hold_item += on_stop_hold_item;
 
         dayCounter.SetText(
             runner
@@ -136,6 +152,8 @@ public class GameUI : GameMechanic {
         }
     }
     void OnDisable() {
+        runner.player.on_hold_item -= on_hold_item;
+        runner.player.on_stop_hold_item -= on_stop_hold_item;
         runner.player.on_health_update -= update_health;
         ItemStation[] stations = FindObjectsOfType<ItemStation>();
         for( int i = 0; i < stations.Length; ++i ) {
