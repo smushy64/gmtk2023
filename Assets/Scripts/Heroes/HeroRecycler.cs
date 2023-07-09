@@ -45,7 +45,7 @@ namespace Heroes {
 
         public void Recycle(BaseHero hero) {
             hero.gameObject.SetActive(false);
-            
+            return; //turning recycling of heroes off for rn
             var index = hero.heroType.GetPrefabHashCode(hero.heroVariantValue);
             var recycled = this.recycledHeroes.GetNullable(index);
             if (recycled == null) {

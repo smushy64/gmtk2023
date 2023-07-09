@@ -24,6 +24,9 @@ namespace Heroes {
         private LevelData levelData = LevelData.Null;
         private HeroSpawn nextSpawn = HeroSpawn.Null;
         private int spawnIndex;
+
+        public List<BaseHero> heroes;
+        public Action<BaseHero> onHeroSpawn;
         
         private void Awake() {
             this.random = new();
@@ -65,6 +68,8 @@ namespace Heroes {
                 y: this.random.Next(entranceArea.min.y, entranceArea.max.y)
                 );
             h.SetUp(spawn.id, spawn.requestItem, spawnPoint, walkToPoint);
+            this.heroes.Add(h);
+            this.onHeroSpawn?.Invoke(h);
         }
 
         private Bounds GetDoorSpawn(SpawnDoor door) {
@@ -107,6 +112,9 @@ namespace Heroes {
             var directionToCenter = spawn.Direction(Vector2.zero);
             var requestLocation = spawn + directionToCenter * this.random.Next(2f, 3f);
             h.SetUp(-1, Item.Potion, spawn, requestLocation);
+            
+            this.heroes.Add(h);
+            this.onHeroSpawn?.Invoke(h);
         }
     }
 }
