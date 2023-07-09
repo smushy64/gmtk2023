@@ -78,7 +78,7 @@ namespace Runner {
         }
 
         private void Awake() {
-            this.state = new GameState() { status = GameState.Status.Running };
+            this.state = new GameState() { status = GameState.Status.SetUp };
             this.keyStore = new KeyStoreService();
         }
         private void Start() {
@@ -96,23 +96,30 @@ namespace Runner {
                 Debug.LogError("The game has already started");
                 return;
             }
-            state.set_status( GameState.Status.Running );
+
+            var s = this.state;
+            s.set_status( GameState.Status.Running );
+            this.state = s;
             
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);
             }
         }
         public void PlayerDied() {
-            state.set_status( GameState.Status.End );
-            state.set_level_result( GameState.LevelResult.Died );
+            var s = this.state;
+            s.set_status( GameState.Status.End );
+            s.set_level_result( GameState.LevelResult.Died );
+            this.state = s;
             
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);
             }
         }
         public void StoreDidClose() { //woo
-            state.set_status( GameState.Status.End );
-            state.set_level_result( GameState.LevelResult.Won );
+            var s = this.state;
+            s.set_status( GameState.Status.End );
+            s.set_level_result( GameState.LevelResult.Won );
+            this.state = s;
             
             foreach (var mechanic in this.mechanics) {
                 mechanic.OnStateChange(this.state);
