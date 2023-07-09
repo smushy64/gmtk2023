@@ -79,24 +79,48 @@ namespace Runner {
                                 door = SpawnDoor.Door1,
                                 heroType = HeroType.Link,
                                 variant = 0,
-                                requestItem = Item.Potion,
+                                requestItem = Item.Sword,
                                 spawnTimeInSeconds = 1f,
                             },
                             new HeroSpawn() {
                                 id = 2,
                                 door = SpawnDoor.Door2,
-                                heroType = HeroType.Karen,
+                                heroType = HeroType.Merlin,
                                 variant = 0,
-                                requestItem = Item.Potion,
-                                spawnTimeInSeconds = 3f,
+                                requestItem = Item.SpellBook,
+                                spawnTimeInSeconds = 4f,
+                            }
+                        }
+                    };
+                    break;
+                }
+                case 3: {
+                    this.levelData = new LevelData() {
+                        level = currentLevel,
+                        heroes = new[] {
+                            new HeroSpawn() {
+                                id = 1,
+                                door = SpawnDoor.Door1,
+                                heroType = HeroType.Link,
+                                variant = 0,
+                                requestItem = Item.Sword,
+                                spawnTimeInSeconds = 1f,
                             },
                             new HeroSpawn() {
-                                id = 3,
+                                id = 2,
                                 door = SpawnDoor.Door2,
                                 heroType = HeroType.Merlin,
                                 variant = 0,
-                                requestItem = Item.Potion,
+                                requestItem = Item.SpellBook,
                                 spawnTimeInSeconds = 4f,
+                            },
+                            new HeroSpawn() {
+                                id = 3,
+                                door = SpawnDoor.Door3,
+                                heroType = HeroType.Karen,
+                                variant = 0,
+                                requestItem = Item.Potion,
+                                spawnTimeInSeconds = 6f,
                             }
                         }
                     };
@@ -107,6 +131,7 @@ namespace Runner {
                     var heroCount = 5;
                     List<HeroType> possibleHeroes = new();
                     List<SpawnDoor> possibleDoors = new();
+                    List<Item> possibleItems = new();
                     
                     possibleHeroes.Add(HeroType.Link);
                     possibleHeroes.Add(HeroType.Karen);
@@ -116,6 +141,11 @@ namespace Runner {
                     possibleDoors.Add(SpawnDoor.Door1);
                     possibleDoors.Add(SpawnDoor.Door2);
                     possibleDoors.Add(SpawnDoor.Door3);//eh just add them all for now lol
+                    
+                    possibleItems.Add(Item.Potion);
+                    possibleItems.Add(Item.Sword);
+                    possibleItems.Add(Item.SpellBook);//eh just add them all for now lol
+                    
                     if (currentLevel > 6) {
                         heroCount = 10;
                     } else if (currentLevel > 4) {
@@ -133,7 +163,7 @@ namespace Runner {
                             door = possibleDoors.RandomElement(random),
                             heroType = possibleHeroes.RandomElement(random),
                             variant = 0,
-                            requestItem = Item.Potion,
+                            requestItem = possibleItems.RandomElement(random),
                             spawnTimeInSeconds = 2f + i * extraSpawnTimeScaler,
                         };
                         
@@ -149,7 +179,8 @@ namespace Runner {
             GameRunner.LevelResult level_result
         ) {
             base.OnStateChange(status, level_result);
-            if( status == GameRunner.Status.End ) {
+            if( status == GameRunner.Status.End && this.hasTickedLevel == false) {
+                this.hasTickedLevel = true;
                 if( level_result == GameRunner.LevelResult.Won ) {
                     currentLevel += 1;
                 } else {

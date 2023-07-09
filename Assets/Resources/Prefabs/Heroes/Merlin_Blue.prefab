@@ -396,9 +396,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progressBar: {fileID: 8687662814371775865}
-  walkingInSpeed: 3
+  walkingInSpeed: 1.5
   leavingSpeed: 1.5
-  generalRequestTime: 2.7
+  generalRequestTime: 20
   spriteRenderer: {fileID: 8780210959543164648}
   playerCollisionDetection: {fileID: 6239184978395919692}
   animator: {fileID: 8374650230073134133}

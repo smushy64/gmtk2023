@@ -61,7 +61,6 @@ namespace Heroes {
         protected Vector2 requestLocation;
 
         public Item requestItem => this._requestItem;
-        public bool requestsInteraction { protected set; get; }
         public int gameId { private set; get; }
 
         public float timeTilMad => this.requestTimer;

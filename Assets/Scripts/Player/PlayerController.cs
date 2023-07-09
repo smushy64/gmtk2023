@@ -162,16 +162,14 @@ namespace Player {
                     BaseHero bestHeroToSelect = null;
                     for (var i = 0; i < this.possibleSelectedHeroes.Count; i++) {
                         var possibleSelectedHero = this.possibleSelectedHeroes[i];
-                        if (possibleSelectedHero.state != BaseHeroState.WaitingForRequest) {
+                        if (possibleSelectedHero.state != BaseHeroState.WaitingForRequest || possibleSelectedHero.requestItem != this.held_item_type) {
                             continue;
                         }
 
                         if (bestHeroToSelect == null) {
                             bestHeroToSelect = possibleSelectedHero;
                         } else if (possibleSelectedHero.timeTilMad < bestHeroToSelect.timeTilMad) {
-                            if (possibleSelectedHero.requestItem == this.held_item_type || possibleSelectedHero.requestsInteraction) {
-                                bestHeroToSelect = possibleSelectedHero;
-                            }
+                            bestHeroToSelect = possibleSelectedHero;
                         }
                     }
 
