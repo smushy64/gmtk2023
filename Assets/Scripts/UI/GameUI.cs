@@ -22,18 +22,22 @@ public class GameUI : GameMechanic {
     Slider health_bar;
 
     [SerializeField]
-    GameObject timeLeftPanel;
-    [SerializeField]
-    TMP_Text textTimeLeft;
-    [SerializeField]
-    TMP_Text textTimeLeftBackdrop;
-
-    [SerializeField]
     GameObject sword_ready_icon;
     [SerializeField]
     GameObject potion_ready_icon;
     [SerializeField]
     GameObject book_ready_icon;
+
+    [SerializeField]
+    TMP_Text dayCounter;
+
+    [SerializeField]
+    TMP_Text levelEndTitle;
+
+    [SerializeField]
+    TMP_Text happyCountLose, happyCountWin;
+    [SerializeField]
+    TMP_Text angryCountLose, angryCountWin;
 
     const float POPUP_ANIMATION_LENGTH = 0.1f;
     Animator pause_menu_animator;
@@ -98,21 +102,14 @@ public class GameUI : GameMechanic {
         int max_health = runner.player.max_health;
         update_health( max_health, max_health );
         runner.player.on_health_update += update_health;
-    }
 
-    void Update() {
-        float time_til_closing = runner.levelController.timeTilClosing;
-        if( time_til_closing != 0f ) {
-            if( !timeLeftPanel.activeSelf ) {
-                timeLeftPanel.SetActive( true );
-            }
-            textTimeLeft.SetText( time_til_closing.ToString("N1") );
-            textTimeLeftBackdrop.SetText( textTimeLeft.text );
-        } else {
-            if( timeLeftPanel.activeSelf ) {
-                timeLeftPanel.SetActive( false );
-            }
-        }
+
+        dayCounter.SetText(
+            runner
+            .levelController
+            .GetLevelData()
+            .level.ToString()
+        );
     }
 
     void OnEnable() {
@@ -226,9 +223,28 @@ public class GameUI : GameMechanic {
         if( status == GameRunner.Status.End ) {
             switch( level_result ) {
                 case GameRunner.LevelResult.Won:
+                    levelEndTitle.SetText(
+                        "DAY " +
+                        runner
+                        .levelController
+                        .GetLevelData()
+                        .level.ToString()
+                    );
+                    happyCountWin.SetText(
+                        runner.levelController.happyHeroesCount.ToString()
+                    );
+                    angryCountWin.SetText(
+                        runner.levelController.madHeroesCount.ToString()
+                    );
                     levelCompleteMenu.SetActive( true );
                     break;
                 case GameRunner.LevelResult.Died:
+                    happyCountLose.SetText(
+                        runner.levelController.happyHeroesCount.ToString()
+                    );
+                    angryCountLose.SetText(
+                        runner.levelController.madHeroesCount.ToString()
+                    );
                     gameOverMenu.SetActive( true );
                     break;
                 default: break;
