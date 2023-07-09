@@ -14,6 +14,8 @@ public class MainMenu : MonoBehaviour {
     [SerializeField]
     GameObject exitGameButton;
     [SerializeField]
+    GameObject creditsPanel;
+    [SerializeField]
     int startGameSceneIndex = -1;
 
     AudioMixer mixer;
@@ -88,6 +90,24 @@ public class MainMenu : MonoBehaviour {
     public void ToggleAudio() {
         is_audio_enabled = !is_audio_enabled;
         mixer.SetFloat( "MixerVolume", is_audio_enabled ? FULL_VOLUME : NO_VOLUME );
+    }
+
+    IEnumerator itoggle_credits;
+    IEnumerator toggle_credits_e() {
+        float timer = 0.0f;
+        while( timer < BUTTON_DELAY ) {
+            timer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        creditsPanel.SetActive( !creditsPanel.activeSelf );
+    }
+
+    public void toggle_credits() {
+        if( itoggle_credits != null ) {
+            this.StopCoroutine( itoggle_credits );
+        }
+        itoggle_credits = toggle_credits_e();
+        this.StartCoroutine( itoggle_credits );
     }
 
     public void Exit() {
