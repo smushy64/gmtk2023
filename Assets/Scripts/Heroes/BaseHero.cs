@@ -62,6 +62,7 @@ namespace Heroes {
         public float timeTilMad => this.requestTimer;
         public BaseHeroState state => this._state;
 
+        public Action<BaseHero> onStateChange;
         // Unity Lifecycle methods
         // Stubbed out a few of the common mono behavior life cycle classes to make it easier work in the future
         // We can remove these if we don't end up using em
@@ -194,6 +195,8 @@ namespace Heroes {
                     break;
                 }
             }
+            
+            this.onStateChange?.Invoke(this);
         }
 
         //Animation stuff
