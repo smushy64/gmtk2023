@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using RamenSea.Foundation3D.Extensions;
+using Runner;
 using UnityEngine;
 
 namespace Projectiles {
@@ -28,6 +29,9 @@ namespace Projectiles {
         protected override void Update() {
             base.Update();
 
+            if (this.runner.status != GameRunner.Status.Running) {
+                return;
+            }
             if (this.hasSpawned == false || this.isRecycling) {
                 return;
             }

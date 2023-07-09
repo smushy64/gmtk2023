@@ -42,7 +42,6 @@ namespace Heroes {
         [SerializeField] protected GameProgressBar progressBar;
         [SerializeField] protected float walkingInSpeed = 1f;
         [SerializeField] protected float leavingSpeed = 1f;
-        [SerializeField] protected float generalRequestTime = 5f;
         [SerializeField] protected SpriteRenderer spriteRenderer;
         [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
         [SerializeField] protected Animator animator;
@@ -64,6 +63,7 @@ namespace Heroes {
         protected Item _requestItem;
         protected Vector2 spawnLocation;
         protected Vector2 requestLocation;
+        protected HeroSpawn spawnInfo;
 
         public Item requestItem => this._requestItem;
         public int gameId { private set; get; }
@@ -87,6 +87,10 @@ namespace Heroes {
         protected virtual void OnDisable() { }
 
         protected virtual void Update() {
+            if (this.runner.status != GameRunner.Status.Running) {
+                return;
+            }
+
             var position = this.transform.position;
             switch (this.state) {
                 case BaseHeroState.WalkingIn: {
@@ -146,9 +150,11 @@ namespace Heroes {
         }
         public virtual void OnSpawn() {
         }
-        public virtual void SetUp(int id, Item requestingItem, Vector2 spawnLocation, Vector2 requestLocation) {
-            this.gameId = id;
-            this._requestItem = requestingItem;
+        public virtual void SetUp(HeroSpawn spawn, Vector2 spawnLocation, Vector2 requestLocation) {
+            this.spawnInfo = spawn;
+            this.gameId = spawn.id;
+            this._requestItem = spawn.requestItem;
+            this.requestTimer = spawn.requestTime;
             this.spawnLocation = spawnLocation;
             this.requestLocation = requestLocation;
             this.transform.position = spawnLocation;
@@ -193,10 +199,10 @@ namespace Heroes {
                             break;
                         }
                     }
-                    this.thoughtBubble.SetAnimationWithTime(this.requestItem, this.generalRequestTime);
+                    this.thoughtBubble.SetAnimationWithTime(this.requestItem, this.spawnInfo.requestTime);
                     // this.progressBar.gameObject.SetActive(true);
                     // this.progressBar.SetProgress(0f);
-                    this.requestTimer = this.generalRequestTime; // todo actually have this set a usable time. JUST A TEST VALUE
+                    this.requestTimer = this.spawnInfo.requestTime;
                     this.SetMovementAnimation(Vector2.zero);
                     break;
                 }

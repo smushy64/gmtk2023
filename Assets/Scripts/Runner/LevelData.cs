@@ -19,6 +19,7 @@ namespace Runner {
         public SpawnDoor door;
         public Item requestItem;
         public float spawnTimeInSeconds;
+        public float requestTime;
 
         public bool isNull => this.heroType == HeroType.None;
     }

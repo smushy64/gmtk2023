@@ -177,13 +177,9 @@ namespace Player {
                     }
 
                     if(bestHeroToSelect != null) {
-                        if (bestHeroToSelect.requestItem != Item.None) { // only clear out the held item if the hero is requesting an item
-                            held_item_type = Item.None;
-                            heldItem.gameObject.SetActive( false );
-                            on_stop_hold_item?.Invoke();
-                        }
-                        // Checks if the requested item is the same earlier
-                        // That way it allows us to handle non item requests
+                        held_item_type = Item.None;
+                        heldItem.gameObject.SetActive( false );
+                        on_stop_hold_item?.Invoke();
                         bestHeroToSelect.ResolveRequest();
                     }
                 }

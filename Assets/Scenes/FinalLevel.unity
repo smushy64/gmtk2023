@@ -2852,7 +2852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2463680645926443875, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_Size.y
-      value: 4.52
+      value: 2.83
       objectReference: {fileID: 0}
     - target: {fileID: 2463680645926443875, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_Offset.x
@@ -2860,7 +2860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2463680645926443875, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_Offset.y
-      value: 5.33
+      value: 7.25
       objectReference: {fileID: 0}
     - target: {fileID: 2463680645926443875, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_IsTrigger
@@ -2952,7 +2952,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7984398578462307605, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_Size.y
-      value: 2.79
+      value: 2.09
       objectReference: {fileID: 0}
     - target: {fileID: 7984398578462307605, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_Offset.x
@@ -2960,7 +2960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7984398578462307605, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_Offset.y
-      value: -0.9828155
+      value: -1.66
       objectReference: {fileID: 0}
     - target: {fileID: 8668826320837333312, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2969,6 +2969,14 @@ PrefabInstance:
     - target: {fileID: 8668826320837333312, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
       propertyPath: m_LocalPosition.y
       value: -7.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000490788981264686, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: baseClosingTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000490788981264686, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: closingTimeExtraPerMadHero
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

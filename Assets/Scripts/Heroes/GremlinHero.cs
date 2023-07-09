@@ -4,6 +4,7 @@ using Projectiles;
 using RamenSea.Foundation.Extensions;
 using RamenSea.Foundation3D.Components.Audio;
 using RamenSea.Foundation3D.Extensions;
+using Runner;
 using UnityEngine;
 
 namespace Heroes {
@@ -17,7 +18,6 @@ namespace Heroes {
             WalkTowardsTargetFast,
             WalkRandomly,
             Barf,
-            Leave
         }
         public override HeroType heroType => HeroType.Gremlin;
         public override byte heroVariantValue => (byte) this.variant;
@@ -60,6 +60,10 @@ namespace Heroes {
 
         protected override void Update() {
             base.Update();
+            if (this.runner.status != GameRunner.Status.Running) {
+                return;
+            }
+
 
             switch (this.state) {
                 case BaseHeroState.Mad: {
@@ -73,6 +77,10 @@ namespace Heroes {
 
         protected override void FixedUpdate() {
             base.FixedUpdate();
+            if (this.runner.status != GameRunner.Status.Running) {
+                return;
+            }
+
 
             switch (this.state) {
                 case BaseHeroState.Mad: {
@@ -121,9 +129,6 @@ namespace Heroes {
                     this.SetMovementAnimation(movementDelta);
                     break;
                 }
-                case MadBehavior.Leave:
-                    _state = BaseHeroState.Leaving;
-                    break;
             }
 
             this.firstTimeWithBehavior = false;
