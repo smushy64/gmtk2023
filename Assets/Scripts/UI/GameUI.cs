@@ -16,12 +16,22 @@ public class GameUI : GameMechanic {
     [SerializeField]
     GameObject levelCompleteMenu;
     [SerializeField]
+    GameObject gameOverMenu;
+    [SerializeField]
     Slider health_bar;
+
+    [SerializeField]
+    GameObject sword_ready_icon;
+    [SerializeField]
+    GameObject potion_ready_icon;
+    [SerializeField]
+    GameObject book_ready_icon;
 
     const float POPUP_ANIMATION_LENGTH = 0.1f;
     Animator pause_menu_animator;
 
     Animator level_menu_animator;
+    Animator game_over_animator;
 
     AudioMixer mixer;
     bool is_audio_enabled = true;
@@ -29,10 +39,51 @@ public class GameUI : GameMechanic {
     int popup_hash   = Animator.StringToHash( "Popup" );
     int popdown_hash = Animator.StringToHash( "Popdown" );
 
+    void enable_sword_icon() {
+        sword_ready_icon.SetActive( true );
+    }
+    void enable_potion_icon() {
+        potion_ready_icon.SetActive( true );
+    }
+    void enable_book_icon() {
+        book_ready_icon.SetActive( true );
+    }
+
+    void disable_sword_icon() {
+        sword_ready_icon.SetActive( false );
+    }
+    void disable_potion_icon() {
+        potion_ready_icon.SetActive( false );
+    }
+    void disable_book_icon() {
+        book_ready_icon.SetActive( false );
+    }
+
     void Awake() {
+
+        ItemStation[] stations = FindObjectsOfType<ItemStation>();
+        for( int i = 0; i < stations.Length; ++i ) {
+            ItemStation current = stations[i];
+            switch( current.item_type ) {
+                case Items.Item.Sword:
+                    current.on_ready   += enable_sword_icon;
+                    current.on_not_ready += disable_sword_icon;
+                    break;
+                case Items.Item.Potion:
+                    current.on_ready   += enable_potion_icon;
+                    current.on_not_ready += disable_potion_icon;
+                    break;
+                case Items.Item.SpellBook:
+                    current.on_ready   += enable_book_icon;
+                    current.on_not_ready += disable_book_icon;
+                    break;
+            }
+        }
+
         mixer = Resources.Load<AudioMixer>( "MainMixer" );
         pause_menu_animator = pauseMenu.GetComponent<Animator>();
         level_menu_animator = levelCompleteMenu.GetComponent<Animator>();
+        game_over_animator  = gameOverMenu.GetComponent<Animator>();
     }
     void Start() {
         runner.game_ui = this;
@@ -71,12 +122,14 @@ public class GameUI : GameMechanic {
             pause_menu_animator.Play( popup_hash );
         } else {
             runner.set_paused( false );
-            pause_menu_animator.Play( popdown_hash );
-            if( ipopdown != null ) {
-                this.StopCoroutine( ipopdown );
+            if( pauseMenu.activeSelf ) {
+                pause_menu_animator.Play( popdown_hash );
+                if( ipopdown != null ) {
+                    this.StopCoroutine( ipopdown );
+                }
+                ipopdown = popdown( pauseMenu );
+                this.StartCoroutine( ipopdown );
             }
-            ipopdown = popdown( pauseMenu );
-            this.StartCoroutine( ipopdown );
         }
     }
     public void on_pause() {
@@ -112,7 +165,15 @@ public class GameUI : GameMechanic {
     ) {
         base.OnStateChange( status, level_result );
         if( status == GameRunner.Status.End ) {
-            levelCompleteMenu.SetActive( true );
+            switch( level_result ) {
+                case GameRunner.LevelResult.Won:
+                    levelCompleteMenu.SetActive( true );
+                    break;
+                case GameRunner.LevelResult.Died:
+                    gameOverMenu.SetActive( true );
+                    break;
+                default: break;
+            }
         }
     }
 }

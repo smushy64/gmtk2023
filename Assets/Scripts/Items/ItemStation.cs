@@ -2,10 +2,10 @@
 // * Author:       Alicia Amarilla (smushyaa@gmail.com)
 // * File Created: July 08, 2023
 
+using System;
 using UnityEngine;
 using Runner;
 using Items;
-using TMPro;
 
 public class ItemStation : GameMechanic {
 
@@ -15,8 +15,23 @@ public class ItemStation : GameMechanic {
     float preparationTime = 1f;
     [SerializeField, Min(0.1f)]
     float failureTime = 1.5f;
+
+    public Item item_type => itemToPrepare;
+
     [SerializeField]
-    TMP_Text timerText;
+    GameObject sprite;
+
+    Animator sprite_animator;
+
+    bool sent_message = false;
+    public Action on_standby;
+    public Action on_preparing;
+    public Action on_ready;
+    public Action on_not_ready;
+
+    void Awake() {
+        sprite_animator = sprite.GetComponent<Animator>();
+    }
 
     enum StationStatus : byte {
         IS_STANDBY,
@@ -24,15 +39,37 @@ public class ItemStation : GameMechanic {
         IS_READY,
     }
 
-    public Item on_interact() {
-        switch( status ) {
-            default:
-                break;
+    void update_status( StationStatus new_status ) {
+        status = new_status;
+        switch( new_status ) {
             case StationStatus.IS_STANDBY:
-                status = StationStatus.IS_PREPARING;
+                sprite.SetActive( false );
+                on_standby?.Invoke();
+                on_not_ready?.Invoke();
+                break;
+            case StationStatus.IS_PREPARING:
+                on_preparing?.Invoke();
+                on_not_ready?.Invoke();
+                sprite.SetActive( true );
+                sprite_animator?.Play( "Preparing" );
                 break;
             case StationStatus.IS_READY:
+                sprite.SetActive( false );
+                on_ready?.Invoke();
+                break;
+        }
+    }
+
+    public Item on_interact() {
+        switch( status ) {
+            case StationStatus.IS_STANDBY:
+                update_status( StationStatus.IS_PREPARING );
+                break;
+            case StationStatus.IS_READY:
+                update_status( StationStatus.IS_STANDBY );
                 return itemToPrepare;
+            default:
+                break;
         }
         return 0;
     }
@@ -45,27 +82,20 @@ public class ItemStation : GameMechanic {
     void Update() {
         switch( status ) {
             case StationStatus.IS_PREPARING:
-                if( !timerText.gameObject.activeSelf ) {
-                    timerText.gameObject.SetActive( true );
-                }
                 preparation_timer += Time.deltaTime;
-                timerText.SetText(
-                    (preparationTime - preparation_timer).ToString("N2")
-                );
                 if( preparation_timer >= preparationTime ) {
                     preparation_timer = 0.0f;
-                    status = StationStatus.IS_READY;
+                    update_status( StationStatus.IS_READY );
                 }
                 break;
             case StationStatus.IS_READY:
                 failure_timer += Time.deltaTime;
                 if( failure_timer >= failureTime ) {
                     failure_timer = 0.0f;
-                    status = StationStatus.IS_STANDBY;
+                    update_status( StationStatus.IS_STANDBY );
                 }
                 break;
             default:
-                timerText.gameObject.SetActive( false );
                 break;
         }
     }
