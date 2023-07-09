@@ -61,6 +61,9 @@ namespace Player {
 
         public Action<int, int> on_health_update;
 
+        bool last_is_moving = false;
+        bool is_moving      = false;
+
         // NOTE(alicia): i-frames
         public bool is_invincible { private get; set; } = false;
         [SerializeField, Min(0.0f)]
@@ -101,10 +104,14 @@ namespace Player {
                 return;
             }
 
-            if (this.runner.state.status != GameState.Status.Running) {
+            if( runner.status != GameRunner.Status.Running ) {
+                // NOTE(alicia): maybe hash these animation names
+                // if there's time later
+                animator.Play( "Idle" );
                 return;
             }
 
+            last_is_moving = is_moving;
             poll_input();
             if( player_input.is_interact_pressed ) {
                 if( held_item_type == Item.None ) {
@@ -146,8 +153,8 @@ namespace Player {
                     }
                     if( item != Item.None ) {
                         held_item_type = item;
-                        heldItem.set_sprite( held_item_type );
                         heldItem.gameObject.SetActive( true );
+                        heldItem.set_sprite( held_item_type );
                     }
                 }
                 
@@ -185,20 +192,35 @@ namespace Player {
                 heldItem.gameObject.SetActive( false );
             }
 
-            if (Mathf.Approximately(this.player_input.movement.x, 0)) {
-                this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
+            // NOTE(alicia): mmm performance
+
+            if( !is_moving ) {
+                animator.Play( "Idle" );
             } else {
-                this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, this.player_input.movement.x >= 0 ? 1 : -1);
+                bool moving_vertically = 
+                    Mathf.Abs( player_input.movement.x ) <
+                    Mathf.Abs( player_input.movement.y );
+
+                if( moving_vertically ) {
+                    if( player_input.movement.y > 0f ) {
+                        animator.Play( "MoveUp" );
+                    } else {
+                        animator.Play( "MoveDown" );
+                    }
+                } else {
+                    if( player_input.movement.x < 0f ) {
+                        animator.Play( "MoveLeft" );
+
+                    } else {
+                        animator.Play( "MoveRight" );
+                    }
+                }
             }
-            if (Mathf.Approximately(this.player_input.movement.y, 0)) {
-                this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
-            } else {
-                this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, this.player_input.movement.y >= 0 ? 1 : -1);
-            }
+
         }
 
         private void FixedUpdate() {
-            if (this.runner.state.status != GameState.Status.Running) {
+            if( runner.status != GameRunner.Status.Running ) {
                 return;
             }
 
@@ -207,21 +229,24 @@ namespace Player {
             this.r2d.MovePosition(this.transform.position.ToVector2() + movementDelta);
         }
 
-        public override void OnStateChange(GameState state) {
-            base.OnStateChange(state);
-            switch (state.status) {
-                case GameState.Status.SetUp: {
+        public override void OnStateChange(
+            GameRunner.Status status,
+            GameRunner.LevelResult level_result
+        ) {
+            base.OnStateChange(status, level_result);
+            switch( status ) {
+                case GameRunner.Status.SetUp: {
                     //clear the animator just cuz
                     this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
                     this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
                     this.animator.SetBool(ANIMATOR_DEAD, false);
                     break;
                 }
-                case GameState.Status.Running: {
+                case GameRunner.Status.Running: {
 
                     break;
                 }
-                case GameState.Status.End: {
+                case GameRunner.Status.End: {
                     this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
                     this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
                     this.animator.SetBool(ANIMATOR_DEAD, true);
@@ -245,16 +270,18 @@ namespace Player {
             float timer = 0f;
             float blink_timer = 0f;
             float blink_time = iFrameTime / 10.0f;
+            bool blinking = false;
             while( timer < iFrameTime ) {
                 timer += Time.deltaTime;
                 blink_timer += Time.deltaTime;
                 if( blink_timer >= blink_time ) {
-                    spriteRenderer.gameObject.SetActive( !spriteRenderer.gameObject.activeSelf );
+                    blinking = !blinking;
+                    spriteRenderer.color = blinking ? Color.clear : Color.white;
                     blink_timer = 0f;
                 }
                 yield return null;
             }
-            spriteRenderer.gameObject.SetActive( true );
+            spriteRenderer.color = Color.white;
             is_invincible = false;
         }
 
@@ -262,7 +289,6 @@ namespace Player {
             if( is_invincible ) {
                 return;
             }
-            Debug.Log( "Taking Damage: " + damage );
             health -= damage;
             is_invincible = true;
 
@@ -297,6 +323,8 @@ namespace Player {
                 mapped_input.Character.DiscardItem.WasPressedThisFrame(),
                 mapped_input.Character.DiscardItem.WasReleasedThisFrame()
             );
+
+            is_moving = player_input.movement.sqrMagnitude >= 0.001f;
         }
 
         void OnEnable() {

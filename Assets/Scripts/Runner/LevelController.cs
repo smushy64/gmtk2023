@@ -37,7 +37,7 @@ namespace Runner {
         }
 
         private void Update() {
-            if (this.runner.state.status != GameState.Status.Running) {
+            if( runner.status != GameRunner.Status.Running) {
                 return;
             }
 
@@ -144,10 +144,13 @@ namespace Runner {
 
         }
 
-        public override void OnStateChange(GameState state) {
-            base.OnStateChange(state);
-            if (state.status == GameState.Status.End) {
-                if (state.levelResult == GameState.LevelResult.Won) {
+        public override void OnStateChange(
+            GameRunner.Status status,
+            GameRunner.LevelResult level_result
+        ) {
+            base.OnStateChange(status, level_result);
+            if( status == GameRunner.Status.End ) {
+                if( level_result == GameRunner.LevelResult.Won ) {
                     currentLevel += 1;
                 } else {
                     currentLevel = 1;

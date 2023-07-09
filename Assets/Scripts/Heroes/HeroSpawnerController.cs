@@ -39,7 +39,7 @@ namespace Heroes {
                     this.nextSpawn = this.levelData.heroes[0];
                 }
             }
-            if (this.runner.state.status != GameState.Status.Running) {
+            if( runner.status != GameRunner.Status.Running ) {
                 return;
             }
 
