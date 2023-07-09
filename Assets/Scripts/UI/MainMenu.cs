@@ -56,10 +56,9 @@ public class MainMenu : MonoBehaviour {
         SceneManager.LoadScene( startGameSceneIndex );
     }
 
+    public static float FULL_VOLUME = 0.0f;
+    public static float NO_VOLUME   = -80.0f;
     public void ToggleAudio() {
-        const float FULL_VOLUME = 0.0f;
-        const float NO_VOLUME   = -80.0f;
-
         is_audio_enabled = !is_audio_enabled;
         mixer.SetFloat( "MixerVolume", is_audio_enabled ? FULL_VOLUME : NO_VOLUME );
     }
