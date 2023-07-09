@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemToPrepare: 1
   preparationTime: 1.2
-  failureTime: 3
+  failureTime: 10
   sprite: {fileID: 7577968352593020724}
 --- !u!58 &5544350639134330417
 CircleCollider2D:

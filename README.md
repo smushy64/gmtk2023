@@ -1,3 +1,4 @@
+![Market Mayhem Logo](/branding/marketmadness-420x172.png)
 ![GMTK Game Jam 2023 Logo](/branding/jamlogo2023-200x110.png)
 
 ## About
