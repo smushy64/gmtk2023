@@ -302,15 +302,14 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8780210959543164648}
   playerCollisionDetection: {fileID: 6239184978395919692}
   animator: {fileID: 2120170084945289016}
-  rigidbody: {fileID: 1656457147449675210}
   variant: 0
   madWalkingSpeed: 1.6
   madChargingSpeed: 10
   timeForBeginChargingAnimation: 1
   durationOfCharge: 2
   targetingOffAxisDifference: 0.05
-  distanceTriggerCharge: 0.8
-  chargeAttackRange: 0.3
+  distanceTriggerCharge: 1.3
+  chargeAttackRange: 3
   chargeDamage: 1
 --- !u!50 &1656457147449675210
 Rigidbody2D:
