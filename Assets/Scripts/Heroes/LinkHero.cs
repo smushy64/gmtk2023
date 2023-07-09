@@ -1,5 +1,6 @@
 using Projectiles;
 using RamenSea.Foundation.Extensions;
+using RamenSea.Foundation3D.Components.Audio;
 using RamenSea.Foundation3D.Extensions;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ namespace Heroes {
         [SerializeField] private float distanceTriggerCharge;
         [SerializeField] private float chargeAttackRange;
         [SerializeField] private int chargeDamage;
+        [SerializeField] private VariationAudioSource attackSound;
 
 
         private Vector2 chargeDirection;
@@ -66,8 +68,11 @@ namespace Heroes {
                         }
                         
                     } else {
-                        if (this.beginChargingAnimationTimer <= 0f) {
+                        if (this.beginChargingAnimationTimer > 0f) {
                             this.beginChargingAnimationTimer -= Time.fixedDeltaTime;
+                            if (this.beginChargingAnimationTimer <= 0) {
+                                this.attackSound.Play();
+                            }
                         } else {
                             var moveDelta = this.chargeDirection * (this.madChargingSpeed * Time.fixedDeltaTime);
                             var animationDelta = this.chargeDirection;

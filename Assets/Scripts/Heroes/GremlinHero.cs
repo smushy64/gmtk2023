@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Projectiles;
 using RamenSea.Foundation.Extensions;
+using RamenSea.Foundation3D.Components.Audio;
 using RamenSea.Foundation3D.Extensions;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ namespace Heroes {
         [SerializeField] private float waitToSpawnBarf;
 
         [SerializeField] private Transform attackFrom;
+        [SerializeField] private VariationAudioSource attackSound;
 
 
         private MadBehavior behavior;
@@ -186,7 +188,7 @@ namespace Heroes {
 
         private async void Barf() {
             this.animator.SetBool(ANIMATOR_ATTACK, true);
-            
+            this.attackSound.Play();
             await UniTask.Delay(TimeSpan.FromSeconds(this.waitToSpawnBarf), DelayType.DeltaTime);
             if (this == null) {
                 return;

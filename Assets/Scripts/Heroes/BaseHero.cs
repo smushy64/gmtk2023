@@ -4,6 +4,7 @@ using General;
 using Items;
 using Player;
 using RamenSea.Foundation.Extensions;
+using RamenSea.Foundation3D.Components.Audio;
 using RamenSea.Foundation3D.Extensions;
 using Runner;
 using Unity.VisualScripting;
@@ -46,6 +47,7 @@ namespace Heroes {
         [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
         [SerializeField] protected Animator animator;
         [SerializeField] protected ThoughtBubble thoughtBubble;
+        [SerializeField] protected VariationAudioSource entranceSound;
         protected Rigidbody2D r2d; //todo
 
 
@@ -96,6 +98,7 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.WaitingForRequest: {
+                    
                     this.requestTimer -= Time.deltaTime;
                     this.progressBar.SetProgress((this.generalRequestTime - this.requestTimer) / this.generalRequestTime);
                     if (this.requestTimer <= 0f) {
@@ -169,6 +172,7 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.WaitingForRequest: {
+                    this.entranceSound.Play();
                     this.progressBar.gameObject.SetActive(true);
                     this.progressBar.SetProgress(0f);
                     this.requestTimer = this.generalRequestTime; // todo actually have this set a usable time. JUST A TEST VALUE

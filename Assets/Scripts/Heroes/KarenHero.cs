@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Items;
 using Projectiles;
 using RamenSea.Foundation.Extensions;
+using RamenSea.Foundation3D.Components.Audio;
 using RamenSea.Foundation3D.Extensions;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace Heroes {
         [SerializeField] private float waitForAttackAnimation = 0.2f;
         [SerializeField] private float attackSpeed = 4f;
         [SerializeField] private Transform attackFrom;
+        [SerializeField] protected VariationAudioSource attackSound;
 
 
         private float attackTimer = 0f;
@@ -63,7 +65,7 @@ namespace Heroes {
             if (this == null) {
                 return;
             }
-            
+            this.attackSound.Play();
             float angle = 0f;
             for (int i = 0; i < numShots; i++) {
                 var targeted = this.runner.projectileRecycler.Spawn<KarenDefaultProjectile>();

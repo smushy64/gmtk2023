@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using Projectiles;
+using RamenSea.Foundation3D.Components.Audio;
 using RamenSea.Foundation3D.Extensions;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ namespace Heroes {
         [SerializeField] private float waitToSpawnProjectile3 = 0.2f;
         [SerializeField] private float attackSpeed = 0.5f;
         [SerializeField] private Transform attackFrom;
+        [SerializeField] private VariationAudioSource attackSound;
 
 
         private float attackTimer = 0f;
@@ -70,6 +72,7 @@ namespace Heroes {
             if (this == null) {
                 return;
             }
+            this.attackSound.Play();
             targeted = this.runner.projectileRecycler.Spawn<TargetedProjectile>();
             targeted.SetUp(this.attackFrom.position + new Vector3(0.5f, 0f), this.runner.player.targetTransform.position);
             

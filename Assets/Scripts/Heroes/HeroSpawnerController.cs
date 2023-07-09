@@ -96,7 +96,7 @@ namespace Heroes {
         }
         [Button("Test Spawn", EButtonEnableMode.Playmode)]
         private void RandomSpawn() {
-            var h = this.runner.heroRecycler.Spawn(HeroType.Merlin, 0);
+            var h = this.runner.heroRecycler.Spawn(HeroType.Karen, 0);
             Vector2 spawn;
             if (this.random.NextBool(0.3f)) {
                 spawn.y = -this.testSpawnArea.y;
