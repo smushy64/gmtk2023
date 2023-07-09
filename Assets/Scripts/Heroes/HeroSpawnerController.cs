@@ -67,7 +67,7 @@ namespace Heroes {
                 x: this.random.Next(entranceArea.min.x, entranceArea.max.x),
                 y: this.random.Next(entranceArea.min.y, entranceArea.max.y)
                 );
-            h.SetUp(spawn.id, spawn.requestItem, spawnPoint, walkToPoint);
+            h.SetUp(spawn, spawnPoint, walkToPoint);
             this.heroes.Add(h);
             this.onHeroSpawn?.Invoke(h);
         }
@@ -111,7 +111,11 @@ namespace Heroes {
 
             var directionToCenter = spawn.Direction(Vector2.zero);
             var requestLocation = spawn + directionToCenter * this.random.Next(2f, 3f);
-            h.SetUp(-1, Item.Potion, spawn, requestLocation);
+            h.SetUp(new HeroSpawn() {
+                id = -1,
+                requestItem = Item.Potion,
+                requestTime = 20,
+            }, spawn, requestLocation);
             
             this.heroes.Add(h);
             this.onHeroSpawn?.Invoke(h);

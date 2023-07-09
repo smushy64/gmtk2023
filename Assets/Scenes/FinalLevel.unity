@@ -2970,6 +2970,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -7.81
       objectReference: {fileID: 0}
+    - target: {fileID: 9000490788981264686, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: baseClosingTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000490788981264686, guid: f857f54804f02472ebfe2e91b0bb597a, type: 3}
+      propertyPath: closingTimeExtraPerMadHero
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

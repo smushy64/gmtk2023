@@ -42,6 +42,9 @@ namespace Projectiles {
                 return;
             }
             
+            if (this.runner.status != GameRunner.Status.Running) {
+                return;
+            }
             this.projectileAliveTimer += Time.deltaTime;
 
             if (this.isRecycling) {

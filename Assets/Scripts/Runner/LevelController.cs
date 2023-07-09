@@ -32,9 +32,11 @@ namespace Runner {
         public bool isClosingTime { private set; get; }
 
         private bool hasTickedLevel = false;
+        
         private void Awake() {
             this.heroesMad = new();
             this.heroesHappy = new();
+
         }
 
         private void Update() {
@@ -54,6 +56,24 @@ namespace Runner {
         public override void OnSetGameRunner(GameRunner runner) {
             base.OnSetGameRunner(runner);
 
+            var basicRequestTime = 20f;
+            var possibleItems = new[] {
+                Item.Potion,
+                Item.Sword,
+                Item.SpellBook
+            };
+            var possibleHeroes = new[] {
+                HeroType.Gremlin,
+                HeroType.Karen,
+                HeroType.Link,
+                HeroType.Merlin
+            };
+            var possibleDoors = new[] {
+                SpawnDoor.Door1,
+                SpawnDoor.Door2,
+                SpawnDoor.Door3
+            };
+            var random = new System.Random();
             switch (currentLevel) {
                 case 1: {
                     this.levelData = new LevelData() {
@@ -66,6 +86,7 @@ namespace Runner {
                                 variant = 0,
                                 requestItem = Item.Potion,
                                 spawnTimeInSeconds = 1f,
+                                requestTime = basicRequestTime,
                             }
                         }
                     };
@@ -82,6 +103,7 @@ namespace Runner {
                                 variant = 0,
                                 requestItem = Item.Sword,
                                 spawnTimeInSeconds = 1f,
+                                requestTime = basicRequestTime,
                             },
                             new HeroSpawn() {
                                 id = 2,
@@ -89,7 +111,8 @@ namespace Runner {
                                 heroType = HeroType.Merlin,
                                 variant = 0,
                                 requestItem = Item.SpellBook,
-                                spawnTimeInSeconds = 4f,
+                                spawnTimeInSeconds = 5f,
+                                requestTime = basicRequestTime,
                             }
                         }
                     };
@@ -104,8 +127,9 @@ namespace Runner {
                                 door = SpawnDoor.Door1,
                                 heroType = HeroType.Link,
                                 variant = 0,
-                                requestItem = Item.Sword,
+                                requestItem = possibleItems.RandomElement(random),
                                 spawnTimeInSeconds = 1f,
+                                requestTime = basicRequestTime,
                             },
                             new HeroSpawn() {
                                 id = 2,
@@ -114,45 +138,153 @@ namespace Runner {
                                 variant = 0,
                                 requestItem = Item.SpellBook,
                                 spawnTimeInSeconds = 4f,
+                                requestTime = 6f,
+                            }
+                        }
+                    };
+                    break;
+                }
+                case 4: {
+                    this.levelData = new LevelData() {
+                        level = currentLevel,
+                        heroes = new[] {
+                            new HeroSpawn() {
+                                id = 1,
+                                door = SpawnDoor.Door1,
+                                heroType = HeroType.Link,
+                                variant = 0,
+                                requestItem = Item.Sword,
+                                spawnTimeInSeconds = 1f,
+                                requestTime = basicRequestTime,
+                            },
+                            new HeroSpawn() {
+                                id = 2,
+                                door = SpawnDoor.Door3,
+                                heroType = HeroType.Karen,
+                                variant = 0,
+                                requestItem = possibleItems.RandomElement(random),
+                                spawnTimeInSeconds = 4f,
+                                requestTime = basicRequestTime,
+                            },
+                        }
+                    };
+                    break;
+                }
+                case 5: {
+                    this.levelData = new LevelData() {
+                        level = currentLevel,
+                        heroes = new[] {
+                            new HeroSpawn() {
+                                id = 1,
+                                door = SpawnDoor.Door1,
+                                heroType = HeroType.Link,
+                                variant = 0,
+                                requestItem = Item.Sword,
+                                spawnTimeInSeconds = 1f,
+                                requestTime = basicRequestTime,
+                            },
+                            new HeroSpawn() {
+                                id = 2,
+                                door = SpawnDoor.Door3,
+                                heroType = HeroType.Karen,
+                                variant = 0,
+                                requestItem = possibleItems.RandomElement(random),
+                                spawnTimeInSeconds = 4f,
+                                requestTime = basicRequestTime,
+                            },
+                        }
+                    };
+                    break;
+                }
+                case 6: {
+                    this.levelData = new LevelData() {
+                        level = currentLevel,
+                        heroes = new[] {
+                            new HeroSpawn() {
+                                id = 1,
+                                door = SpawnDoor.Door1,
+                                heroType = HeroType.Merlin,
+                                variant = 0,
+                                requestItem = Item.SpellBook,
+                                spawnTimeInSeconds = 1f,
+                                requestTime = 4f,
+                            },
+                            new HeroSpawn() {
+                                id = 2,
+                                door = SpawnDoor.Door3,
+                                heroType = HeroType.Merlin,
+                                variant = 0,
+                                requestItem = Item.Sword,
+                                spawnTimeInSeconds = 3f,
+                                requestTime = basicRequestTime,
+                            },
+                            new HeroSpawn() {
+                                id = 3,
+                                door = SpawnDoor.Door2,
+                                heroType = HeroType.Merlin,
+                                variant = 0,
+                                requestItem = Item.Potion,
+                                spawnTimeInSeconds = 6f,
+                                requestTime = basicRequestTime,
+                            },
+                        }
+                    };
+                    break;
+                }
+                case 9: {
+                    this.levelData = new LevelData() {
+                        level = currentLevel,
+                        heroes = new[] {
+                            new HeroSpawn() {
+                                id = 1,
+                                door = SpawnDoor.Door1,
+                                heroType = HeroType.Karen,
+                                variant = 0,
+                                requestItem = possibleItems.RandomElement(random),
+                                spawnTimeInSeconds = 1f,
+                                requestTime = 4f,
+                            },
+                            new HeroSpawn() {
+                                id = 2,
+                                door = SpawnDoor.Door2,
+                                heroType = HeroType.Karen,
+                                variant = 0,
+                                requestItem = possibleItems.RandomElement(random),
+                                spawnTimeInSeconds = 3f,
+                                requestTime = basicRequestTime,
                             },
                             new HeroSpawn() {
                                 id = 3,
                                 door = SpawnDoor.Door3,
                                 heroType = HeroType.Karen,
                                 variant = 0,
-                                requestItem = Item.Potion,
+                                requestItem = possibleItems.RandomElement(random),
                                 spawnTimeInSeconds = 6f,
-                            }
+                                requestTime = basicRequestTime,
+                            },
                         }
                     };
                     break;
                 }
                 default: {
-                    var random = new System.Random();
-                    var heroCount = 5;
-                    List<HeroType> possibleHeroes = new();
-                    List<SpawnDoor> possibleDoors = new();
-                    List<Item> possibleItems = new();
-                    
-                    possibleHeroes.Add(HeroType.Link);
-                    possibleHeroes.Add(HeroType.Karen);
-                    possibleHeroes.Add(HeroType.Merlin);
-                    possibleHeroes.Add(HeroType.Gremlin);//eh just add them all for now
-                    
-                    possibleDoors.Add(SpawnDoor.Door1);
-                    possibleDoors.Add(SpawnDoor.Door2);
-                    possibleDoors.Add(SpawnDoor.Door3);//eh just add them all for now lol
-                    
-                    possibleItems.Add(Item.Potion);
-                    possibleItems.Add(Item.Sword);
-                    possibleItems.Add(Item.SpellBook);//eh just add them all for now lol
-                    
-                    if (currentLevel > 6) {
-                        heroCount = 10;
-                    } else if (currentLevel > 4) {
-                        heroCount = 7;
-                    }
+                    var heroCount = (currentLevel.ToFloat() * 0.5f).ToInt();
 
+                    if (currentLevel == 12) {
+                        //Gremlin rush level
+                        // this.
+                        basicRequestTime = 5f;
+                        heroCount = 12;
+                        possibleHeroes = new[] { HeroType.Gremlin };
+                    }
+                    
+                    if (currentLevel == 16) {
+                        //Karen rush level
+                        // this.
+                        basicRequestTime = 5f;
+                        heroCount = 12;
+                        possibleHeroes = new[] { HeroType.Gremlin };
+                    }
+                    
                     this.levelData = new LevelData() {
                         level = currentLevel,
                         heroes = new HeroSpawn[heroCount]
@@ -166,6 +298,7 @@ namespace Runner {
                             variant = 0,
                             requestItem = possibleItems.RandomElement(random),
                             spawnTimeInSeconds = 2f + i * extraSpawnTimeScaler,
+                            requestTime = basicRequestTime,
                         };
                         
                     }
@@ -202,7 +335,11 @@ namespace Runner {
             var itIsClosingTime = this.heroesHappy.Count + this.heroesMad.Count;
             if (itIsClosingTime == this.levelData.heroes.Length && this.isClosingTime == false) {
                 this.isClosingTime = true;
-                this.timeTilClosing = this.baseClosingTime + this.closingTimeExtraPerMadHero * this.heroesMad.Count;
+                if (this.madHeroesCount == 0) {
+                    this.timeTilClosing = 3f;
+                } else {
+                    this.timeTilClosing = this.baseClosingTime + this.closingTimeExtraPerMadHero * this.heroesMad.Count;
+                }
                 this.onClosingTimeStarted?.Invoke();
             }
             

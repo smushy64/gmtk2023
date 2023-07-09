@@ -2,6 +2,7 @@ using Projectiles;
 using RamenSea.Foundation.Extensions;
 using RamenSea.Foundation3D.Components.Audio;
 using RamenSea.Foundation3D.Extensions;
+using Runner;
 using UnityEngine;
 
 namespace Heroes {
@@ -42,6 +43,9 @@ namespace Heroes {
 
         protected override void FixedUpdate() {
             base.Update();
+            if (this.runner.status != GameRunner.Status.Running) {
+                return;
+            }
 
             switch (this.state) {
                 case BaseHeroState.Mad: {
@@ -95,7 +99,6 @@ namespace Heroes {
                             if (this.chargetimer <= 0f) {
                                 this.isCharging = false;
                                 this.animator.SetBool(ANIMATOR_ATTACK, false);
-                                _state = BaseHeroState.Leaving;
                             }
 
                         }

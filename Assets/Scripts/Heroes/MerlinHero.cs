@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Projectiles;
 using RamenSea.Foundation3D.Components.Audio;
 using RamenSea.Foundation3D.Extensions;
+using Runner;
 using UnityEngine;
 
 namespace Heroes {
@@ -31,6 +32,7 @@ namespace Heroes {
             switch (this.state) {
                 case BaseHeroState.Mad: {
                     this.attackTimer = this.attackSpeed;
+                    this.Shoot();
                     break;
                 }
             }
@@ -38,6 +40,9 @@ namespace Heroes {
 
         protected override void Update() {
             base.Update();
+            if (this.runner.status != GameRunner.Status.Running) {
+                return;
+            }
 
             switch (this.state) {
                 case BaseHeroState.Mad: {
@@ -81,7 +86,6 @@ namespace Heroes {
                 return;
             }
             this.animator.SetBool(ANIMATOR_ATTACK, false);
-            _state = BaseHeroState.Leaving;
         }
     }
 }
