@@ -55,6 +55,15 @@ namespace Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""c88ad7f5-0d8f-4358-a735-7b12a0fae89f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -288,6 +297,39 @@ namespace Player
                     ""action"": ""DiscardItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e61788c6-833f-4459-ad49-7f412d17341e"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b120e6e-6fbb-4802-9069-250c4569b017"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""991746bc-2ed7-4100-a009-ee289b673b40"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""General"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -321,6 +363,7 @@ namespace Player
             m_Character_Movement = m_Character.FindAction("Movement", throwIfNotFound: true);
             m_Character_Action = m_Character.FindAction("Action", throwIfNotFound: true);
             m_Character_DiscardItem = m_Character.FindAction("DiscardItem", throwIfNotFound: true);
+            m_Character_Pause = m_Character.FindAction("Pause", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -385,6 +428,7 @@ namespace Player
         private readonly InputAction m_Character_Movement;
         private readonly InputAction m_Character_Action;
         private readonly InputAction m_Character_DiscardItem;
+        private readonly InputAction m_Character_Pause;
         public struct CharacterActions
         {
             private @MappedInput m_Wrapper;
@@ -392,6 +436,7 @@ namespace Player
             public InputAction @Movement => m_Wrapper.m_Character_Movement;
             public InputAction @Action => m_Wrapper.m_Character_Action;
             public InputAction @DiscardItem => m_Wrapper.m_Character_DiscardItem;
+            public InputAction @Pause => m_Wrapper.m_Character_Pause;
             public InputActionMap Get() { return m_Wrapper.m_Character; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -410,6 +455,9 @@ namespace Player
                 @DiscardItem.started += instance.OnDiscardItem;
                 @DiscardItem.performed += instance.OnDiscardItem;
                 @DiscardItem.canceled += instance.OnDiscardItem;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
 
             private void UnregisterCallbacks(ICharacterActions instance)
@@ -423,6 +471,9 @@ namespace Player
                 @DiscardItem.started -= instance.OnDiscardItem;
                 @DiscardItem.performed -= instance.OnDiscardItem;
                 @DiscardItem.canceled -= instance.OnDiscardItem;
+                @Pause.started -= instance.OnPause;
+                @Pause.performed -= instance.OnPause;
+                @Pause.canceled -= instance.OnPause;
             }
 
             public void RemoveCallbacks(ICharacterActions instance)
@@ -454,6 +505,7 @@ namespace Player
             void OnMovement(InputAction.CallbackContext context);
             void OnAction(InputAction.CallbackContext context);
             void OnDiscardItem(InputAction.CallbackContext context);
+            void OnPause(InputAction.CallbackContext context);
         }
     }
 }
