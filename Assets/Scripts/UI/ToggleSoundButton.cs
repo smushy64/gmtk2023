@@ -1,5 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+// * Description:  Changes sound toggle button sprite
+// * Author:       Alicia Amarilla (smushyaa@gmail.com)
+// * File Created: July 08, 2023
+
 using UnityEngine;
 using UnityEngine.UI;
 
