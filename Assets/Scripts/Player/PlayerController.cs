@@ -104,7 +104,10 @@ namespace Player {
                 return;
             }
 
-            if (this.runner.state.status != GameState.Status.Running) {
+            if( runner.status != GameRunner.Status.Running ) {
+                // NOTE(alicia): maybe hash these animation names
+                // if there's time later
+                animator.Play( "Idle" );
                 return;
             }
 
@@ -150,8 +153,8 @@ namespace Player {
                     }
                     if( item != Item.None ) {
                         held_item_type = item;
-                        heldItem.set_sprite( held_item_type );
                         heldItem.gameObject.SetActive( true );
+                        heldItem.set_sprite( held_item_type );
                     }
                 }
                 
@@ -217,7 +220,7 @@ namespace Player {
         }
 
         private void FixedUpdate() {
-            if (this.runner.state.status != GameState.Status.Running) {
+            if( runner.status != GameRunner.Status.Running ) {
                 return;
             }
 
@@ -226,21 +229,24 @@ namespace Player {
             this.r2d.MovePosition(this.transform.position.ToVector2() + movementDelta);
         }
 
-        public override void OnStateChange(GameState state) {
-            base.OnStateChange(state);
-            switch (state.status) {
-                case GameState.Status.SetUp: {
+        public override void OnStateChange(
+            GameRunner.Status status,
+            GameRunner.LevelResult level_result
+        ) {
+            base.OnStateChange(status, level_result);
+            switch( status ) {
+                case GameRunner.Status.SetUp: {
                     //clear the animator just cuz
                     this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
                     this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
                     this.animator.SetBool(ANIMATOR_DEAD, false);
                     break;
                 }
-                case GameState.Status.Running: {
+                case GameRunner.Status.Running: {
 
                     break;
                 }
-                case GameState.Status.End: {
+                case GameRunner.Status.End: {
                     this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
                     this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
                     this.animator.SetBool(ANIMATOR_DEAD, true);

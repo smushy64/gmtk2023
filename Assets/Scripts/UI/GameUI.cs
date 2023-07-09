@@ -14,17 +14,25 @@ public class GameUI : GameMechanic {
     [SerializeField]
     GameObject pauseMenu;
     [SerializeField]
+    GameObject levelCompleteMenu;
+    [SerializeField]
     Slider health_bar;
 
     const float POPUP_ANIMATION_LENGTH = 0.1f;
     Animator pause_menu_animator;
 
+    Animator level_menu_animator;
+
     AudioMixer mixer;
     bool is_audio_enabled = true;
+
+    int popup_hash   = Animator.StringToHash( "Popup" );
+    int popdown_hash = Animator.StringToHash( "Popdown" );
 
     void Awake() {
         mixer = Resources.Load<AudioMixer>( "MainMixer" );
         pause_menu_animator = pauseMenu.GetComponent<Animator>();
+        level_menu_animator = levelCompleteMenu.GetComponent<Animator>();
     }
     void Start() {
         runner.game_ui = this;
@@ -47,27 +55,27 @@ public class GameUI : GameMechanic {
     }
 
     IEnumerator ipopdown;
-    IEnumerator popdown() {
+    IEnumerator popdown( GameObject obj ) {
         float timer = 0.0f;
         while( timer < POPUP_ANIMATION_LENGTH ) {
             timer += Time.unscaledDeltaTime;
             yield return null;
         }
-        pauseMenu.SetActive( false );
+        obj.SetActive( false );
     }
 
     void pause( bool pause ) {
         if( pause ) {
             runner.set_paused( true );
             pauseMenu.SetActive( true );
-            pause_menu_animator.Play( "Popup" );
+            pause_menu_animator.Play( popup_hash );
         } else {
             runner.set_paused( false );
-            pause_menu_animator.Play( "Popdown" );
+            pause_menu_animator.Play( popdown_hash );
             if( ipopdown != null ) {
                 this.StopCoroutine( ipopdown );
             }
-            ipopdown = popdown();
+            ipopdown = popdown( pauseMenu );
             this.StartCoroutine( ipopdown );
         }
     }
@@ -92,5 +100,20 @@ public class GameUI : GameMechanic {
     public void on_reload() {
         pause( false );
         SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex );
+    }
+
+    public void on_next() {
+        runner.update_status( GameRunner.Status.Running );
+        levelCompleteMenu.SetActive( false );
+    }
+
+    public override void OnStateChange(
+        GameRunner.Status status,
+        GameRunner.LevelResult level_result
+    ) {
+        base.OnStateChange( status, level_result );
+        if( status == GameRunner.Status.End ) {
+            levelCompleteMenu.SetActive( true );
+        }
     }
 }
