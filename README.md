@@ -3,6 +3,7 @@
 
 ## About
 ### Links
+- [itch.io](https://ramensea.itch.io/market-mayhem)
 - [GMTK 2023](https://itch.io/jam/gmtk-2023)
 
 ## Credits
