@@ -48,8 +48,11 @@ namespace Heroes {
         [SerializeField] protected Animator animator;
         [SerializeField] protected ThoughtBubble thoughtBubble;
         [SerializeField] protected VariationAudioSource entranceSound;
-        [SerializeField] private VariationAudioSource gettingMadSound;
-        [SerializeField] private Collider2D collider;
+        [SerializeField] protected VariationAudioSource gettingMadSound;
+        [SerializeField] protected VariationAudioSource wantPotionSound;
+        [SerializeField] protected VariationAudioSource wantBookSound;
+        [SerializeField] protected VariationAudioSource wantSwordSound;
+        [SerializeField] protected Collider2D collider;
 
         protected Rigidbody2D r2d; //todo
 
@@ -168,6 +171,7 @@ namespace Heroes {
             
             switch (this.state) {
                 case BaseHeroState.WalkingIn: {
+                    this.entranceSound.Play();
                     this.thoughtBubble.thoughtBubbleAnimation = ThoughtBubbleAnimation.None;
                     if (this.r2d != null) {
                         this.r2d.bodyType = RigidbodyType2D.Kinematic;
@@ -175,7 +179,20 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.WaitingForRequest: {
-                    this.entranceSound.Play();
+                    switch (this.requestItem) {
+                        case Item.Potion: {
+                            this.wantPotionSound.Play();
+                            break;
+                        }
+                        case Item.SpellBook: {
+                            this.wantBookSound.Play();
+                            break;
+                        }
+                        case Item.Sword: {
+                            this.wantSwordSound.Play();
+                            break;
+                        }
+                    }
                     this.thoughtBubble.SetAnimationWithTime(this.requestItem, this.generalRequestTime);
                     // this.progressBar.gameObject.SetActive(true);
                     // this.progressBar.SetProgress(0f);
