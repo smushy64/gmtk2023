@@ -20,6 +20,7 @@ namespace Heroes {
         [SerializeField] private Sprite swordSprite;
         [SerializeField] private Sprite bookSprite;
         [SerializeField] private Animator animator;
+        [SerializeField] private ThoughtBubbleAnimation startingAnimation;
 
         private ThoughtBubbleAnimation _thoughtBubbleAnimation = ThoughtBubbleAnimation.None;
 
@@ -31,6 +32,10 @@ namespace Heroes {
                     this.SetAnimation();
                 }
             }
+        }
+
+        private void Start() {
+            this.thoughtBubbleAnimation = this.startingAnimation;
         }
 
         public void SetAnimationWithTime(Item item, float time) {
