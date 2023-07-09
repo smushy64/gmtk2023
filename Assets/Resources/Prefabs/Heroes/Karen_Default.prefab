@@ -454,6 +454,7 @@ MonoBehaviour:
   thoughtBubble: {fileID: 5892960129171380622}
   entranceSound: {fileID: 5037989736907577953}
   gettingMadSound: {fileID: 4118089780628688729}
+  collider: {fileID: 1863398860567443252}
   variant: 0
   waitForAttackAnimation: 0.4
   attackSpeed: 4

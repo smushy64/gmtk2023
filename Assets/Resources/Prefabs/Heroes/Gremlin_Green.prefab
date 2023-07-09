@@ -455,6 +455,7 @@ MonoBehaviour:
   thoughtBubble: {fileID: 6493631632393162551}
   entranceSound: {fileID: 1589930680557129768}
   gettingMadSound: {fileID: 3812294274672698597}
+  collider: {fileID: 1863398860567443252}
   variant: 0
   randomWalkingSpeed: 3
   walkingSpeedAtPlayer: 0.9
