@@ -52,6 +52,7 @@ namespace Heroes {
         [SerializeField] protected VariationAudioSource wantPotionSound;
         [SerializeField] protected VariationAudioSource wantBookSound;
         [SerializeField] protected VariationAudioSource wantSwordSound;
+        [SerializeField] protected VariationAudioSource thanksSound;
         [SerializeField] protected Collider2D collider;
 
         protected Rigidbody2D r2d; //todo
@@ -211,6 +212,7 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.Leaving: {
+                    this.thanksSound.Play();
                     this.thoughtBubble.thoughtBubbleAnimation = ThoughtBubbleAnimation.Happy;
                     
                     this.runner.levelController.HeroStatusChange(this.gameId, false); // ooof this is bad to do lol
