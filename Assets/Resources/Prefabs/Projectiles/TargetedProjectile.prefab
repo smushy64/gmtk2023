@@ -216,8 +216,11 @@ MonoBehaviour:
   playerCollisionDetection: {fileID: 3588205246973042724}
   spriteRenderer: {fileID: 4240835046873141985}
   runner: {fileID: 0}
-  maxSpeed: 6
-  timeTilMaxSpeed: 1.5
+  maxSpeed: 9
+  timeTilMaxSpeed: 1
+  startDelay: 0.4
+  scaleFrom: 0.001
+  scaleTo: 0.33
   speedCurve:
     serializedVersion: 2
     m_Curve:
@@ -231,8 +234,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.54864025
-      value: 0.16903628
+      time: 0.6611433
+      value: 0.15960635
       inSlope: 0.82228065
       outSlope: 0.82228065
       tangentMode: 0

@@ -1,4 +1,7 @@
+using System;
+using Cysharp.Threading.Tasks;
 using Projectiles;
+using RamenSea.Foundation3D.Extensions;
 using UnityEngine;
 
 namespace Heroes {
@@ -11,6 +14,9 @@ namespace Heroes {
 
         [SerializeField] private MerlinVariant variant;
         
+        [SerializeField] private float waitToSpawnProjectile1 = 0.2f;
+        [SerializeField] private float waitToSpawnProjectile2 = 0.2f;
+        [SerializeField] private float waitToSpawnProjectile3 = 0.2f;
         [SerializeField] private float attackSpeed = 0.5f;
         [SerializeField] private Transform attackFrom;
 
@@ -44,9 +50,34 @@ namespace Heroes {
         }
 
 
-        private void Shoot() {
+        private async void Shoot() {
+            this.animator.SetBool(ANIMATOR_ATTACK, true);
+            await UniTask.Delay(TimeSpan.FromSeconds(this.waitToSpawnProjectile1), DelayType.DeltaTime);
+            if (this == null) {
+                return;
+            }
             var targeted = this.runner.projectileRecycler.Spawn<TargetedProjectile>();
-            targeted.SetUp(this.attackFrom.position, this.runner.player.targetTransform.position);
+            targeted.SetUp(this.attackFrom.position + new Vector3(-0.5f, 0f), this.runner.player.targetTransform.position);
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(this.waitToSpawnProjectile2), DelayType.DeltaTime);
+            if (this == null) {
+                return;
+            }
+            targeted = this.runner.projectileRecycler.Spawn<TargetedProjectile>();
+            targeted.SetUp(this.attackFrom.position + new Vector3(0, - 0.5f), this.runner.player.targetTransform.position);
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(this.waitToSpawnProjectile3), DelayType.DeltaTime);
+            if (this == null) {
+                return;
+            }
+            targeted = this.runner.projectileRecycler.Spawn<TargetedProjectile>();
+            targeted.SetUp(this.attackFrom.position + new Vector3(0.5f, 0f), this.runner.player.targetTransform.position);
+            
+            await UniTask.NextFrame();
+            if (this == null) {
+                return;
+            }
+            this.animator.SetBool(ANIMATOR_ATTACK, false);
         }
     }
 }

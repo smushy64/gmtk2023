@@ -70,7 +70,15 @@ namespace Heroes {
                             this.beginChargingAnimationTimer -= Time.fixedDeltaTime;
                         } else {
                             var moveDelta = this.chargeDirection * (this.madChargingSpeed * Time.fixedDeltaTime);
-                            this.SetMovementAnimation(moveDelta);
+                            var animationDelta = this.chargeDirection;
+                            if (animationDelta.y.Abs() > 0.001f) {
+                                if (animationDelta.x.Abs() < 0.001f) {
+                                    animationDelta.x = -1f;
+                                }
+                                animationDelta.y = 0;
+                            }
+                            
+                            this.SetMovementAnimation(animationDelta);
                             this.r2d.MovePosition(this.transform.position + moveDelta.ToVector3());
                             this.chargetimer -= Time.fixedDeltaTime;
                             var distance = this.transform.position.ToVector2()
@@ -81,6 +89,7 @@ namespace Heroes {
                             
                             if (this.chargetimer <= 0f) {
                                 this.isCharging = false;
+                                this.animator.SetBool(ANIMATOR_ATTACK, false);
                             }
 
                         }
@@ -92,6 +101,7 @@ namespace Heroes {
 
         private void StartCharge(Vector2 direction) {
             this.SetMovementAnimation(Vector2.zero);
+            this.animator.SetBool(ANIMATOR_ATTACK, true);
             this.isCharging = true;
             this.beginChargingAnimationTimer = this.timeForBeginChargingAnimation;
             this.chargetimer = this.durationOfCharge;

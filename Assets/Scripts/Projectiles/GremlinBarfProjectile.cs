@@ -10,12 +10,12 @@ namespace Projectiles {
             base.OnSpawn();
             this.spriteRenderer.color = this.barfColor.WithAlpha(0f);
             
-            this.spriteRenderer.DOColor(this.barfColor, 0.2f);
+            this.spriteRenderer.DOColor(this.barfColor, 0.5f);
         }
 
         protected override void AnimateProjectileDeath() {
             base.AnimateProjectileDeath();
-            this.spriteRenderer.DOColor(barfColor.WithAlpha(0f), 0.1f);
+            this.spriteRenderer.DOColor(barfColor.WithAlpha(0f), 0.2f);
         }
     }
 }

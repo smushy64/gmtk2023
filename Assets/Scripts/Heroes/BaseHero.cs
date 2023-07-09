@@ -25,7 +25,7 @@ namespace Heroes {
         NotSpawned, WalkingIn, WaitingForRequest, Leaving, Mad, Left
     }
     public class BaseHero: MonoBehaviour, IPlayerCollisionDetectionListener {
-        protected static readonly int ANIMATOR_IS_MAD = Animator.StringToHash("IsMad");
+        protected static readonly int ANIMATOR_ATTACK = Animator.StringToHash("Attack");
         protected static readonly int ANIMATOR_HORIZONTAL_MOVE = Animator.StringToHash("HorizontalMove");
         protected static readonly int ANIMATOR_VERTICAL_MOVE = Animator.StringToHash("VerticalMove");
         
@@ -45,6 +45,7 @@ namespace Heroes {
         [SerializeField] protected SpriteRenderer spriteRenderer;
         [SerializeField] protected PlayerCollisionDetection playerCollisionDetection;
         [SerializeField] protected Animator animator;
+        [SerializeField] protected ThoughtBubble thoughtBubble;
         protected Rigidbody2D r2d; //todo
 
 
@@ -134,7 +135,6 @@ namespace Heroes {
             this.MoveState(BaseHeroState.Leaving);
         }
         public virtual void OnSpawn() {
-            this.spriteRenderer.color = Color.white;
         }
         public virtual void SetUp(int id, Item requestingItem, Vector2 spawnLocation, Vector2 requestLocation) {
             this.gameId = id;
@@ -162,6 +162,7 @@ namespace Heroes {
             
             switch (this.state) {
                 case BaseHeroState.WalkingIn: {
+                    this.thoughtBubble.thoughtBubbleAnimation = ThoughtBubbleAnimation.None;
                     if (this.r2d != null) {
                         this.r2d.bodyType = RigidbodyType2D.Kinematic;
                     }
@@ -175,16 +176,16 @@ namespace Heroes {
                     break;
                 }
                 case BaseHeroState.Mad: {
+                    this.thoughtBubble.thoughtBubbleAnimation = ThoughtBubbleAnimation.Mad;
                     if (this.r2d != null) {
                         this.r2d.bodyType = RigidbodyType2D.Dynamic;
                     }
-                    this.spriteRenderer.DOColor(new Color(0.95f, 0.29f, 0.31f), 0.4f);
                     
                     this.runner.levelController.HeroStatusChange(this.gameId, true); // ooof this is bad to do lol
                     break;
                 }
                 case BaseHeroState.Leaving: {
-                    this.spriteRenderer.DOColor(new Color(0.2f, 0.94f, 0.95f), 0.4f);
+                    this.thoughtBubble.thoughtBubbleAnimation = ThoughtBubbleAnimation.Happy;
                     
                     this.runner.levelController.HeroStatusChange(this.gameId, false); // ooof this is bad to do lol
                     break;
@@ -201,7 +202,8 @@ namespace Heroes {
 
         //Animation stuff
         protected void ClearAnimator() {
-            this.animator.SetBool(ANIMATOR_IS_MAD, false);
+            this.thoughtBubble.thoughtBubbleAnimation = ThoughtBubbleAnimation.None;
+            this.animator.SetBool(ANIMATOR_ATTACK, false);
             this.animator.SetInteger(ANIMATOR_HORIZONTAL_MOVE, 0);
             this.animator.SetInteger(ANIMATOR_VERTICAL_MOVE, 0);
         }

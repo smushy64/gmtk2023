@@ -1,3 +1,5 @@
+using System;
+using Cysharp.Threading.Tasks;
 using Projectiles;
 using RamenSea.Foundation.Extensions;
 using RamenSea.Foundation3D.Extensions;
@@ -22,6 +24,7 @@ namespace Heroes {
         [SerializeField] private float randomWalkingSpeed;
         [SerializeField] private float walkingSpeedAtPlayer;
         [SerializeField] private float walkingSpeedAtPlayerFast;
+        [SerializeField] private float waitToSpawnBarf;
 
         [SerializeField] private Transform attackFrom;
 
@@ -90,8 +93,8 @@ namespace Heroes {
                 }
                 case MadBehavior.Barf: {
                     if (this.firstTimeWithBehavior) {
-                        this.Barf();
                         this.SetMovementAnimation(Vector2.zero);
+                        this.Barf();
                     }
                     break;
                 }
@@ -174,16 +177,30 @@ namespace Heroes {
                     return this.random.Next(0.3f,1.4f);
                 }
                 case MadBehavior.Barf: {
-                    return 0.2f;
+                    return 50f; // really long time since the barf mechanic breaks itself
                 }
             }
 
             return 0f;
         }
 
-        private void Barf() {
+        private async void Barf() {
+            this.animator.SetBool(ANIMATOR_ATTACK, true);
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(this.waitToSpawnBarf), DelayType.DeltaTime);
+            if (this == null) {
+                return;
+            }
+            
             var barf = this.runner.projectileRecycler.Spawn<GremlinBarfProjectile>();
             barf.transform.position = this.attackFrom.position;
+            
+            await UniTask.NextFrame();
+            if (this == null) {
+                return;
+            }
+            this.animator.SetBool(ANIMATOR_ATTACK, false);
+            this.SetNewBehavior();
         }
     }
 }

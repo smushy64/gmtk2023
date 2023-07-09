@@ -33,7 +33,7 @@ namespace Projectiles {
 
         protected ProjectileDeath projectileDeath;
 
-        private void Awake() {
+        protected virtual void Awake() {
             this.playerCollisionDetection.listener = this;
         }
 

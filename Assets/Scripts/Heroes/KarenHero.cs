@@ -1,3 +1,5 @@
+using System;
+using Cysharp.Threading.Tasks;
 using Items;
 using Projectiles;
 using RamenSea.Foundation.Extensions;
@@ -13,6 +15,7 @@ namespace Heroes {
         public override byte heroVariantValue => (byte) this.variant;
 
         [SerializeField] private KarenVariant variant;
+        [SerializeField] private float waitForAttackAnimation = 0.2f;
         [SerializeField] private float attackSpeed = 4f;
         [SerializeField] private Transform attackFrom;
 
@@ -51,16 +54,28 @@ namespace Heroes {
         }
 
 
-        private void Shoot() {
+        private async void Shoot() {
             const int numShots = 5;
             const float angleStep = 360 / numShots;
 
+            this.animator.SetBool(ANIMATOR_ATTACK, true);
+            await UniTask.Delay(TimeSpan.FromSeconds(this.waitForAttackAnimation), DelayType.DeltaTime);
+            if (this == null) {
+                return;
+            }
+            
             float angle = 0f;
             for (int i = 0; i < numShots; i++) {
                 var targeted = this.runner.projectileRecycler.Spawn<KarenDefaultProjectile>();
                 targeted.SetUp(this.attackFrom.position, angle.DegreeToDirection());
                 angle += angleStep;
             }
+
+            await UniTask.NextFrame();
+            if (this == null) {
+                return;
+            }
+            this.animator.SetBool(ANIMATOR_ATTACK, false);
         }
 
     }
