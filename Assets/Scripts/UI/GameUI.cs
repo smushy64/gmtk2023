@@ -103,8 +103,7 @@ public class GameUI : GameMechanic {
     }
 
     public void on_next() {
-        runner.update_status( GameRunner.Status.Running );
-        levelCompleteMenu.SetActive( false );
+        on_reload();
     }
 
     public override void OnStateChange(

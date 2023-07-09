@@ -271,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 2496948776912468941}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.726, y: 0.726, z: 0.726}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3730480335475233097}
@@ -301,7 +301,6 @@ MonoBehaviour:
   spriteRenderer: {fileID: 8780210959543164648}
   playerCollisionDetection: {fileID: 6239184978395919692}
   animator: {fileID: 2120170084945289016}
-  rigidbody: {fileID: 0}
   variant: 0
   attackSpeed: 4
   attackFrom: {fileID: 2057121710655561579}
